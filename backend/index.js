@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const queue = require('./src/queue');
+const thinger = require('./src/thinger');
 
 const PORT = 8081;
 const INTERVAL = 10000;
@@ -69,8 +70,9 @@ const informUsers = () => {
   });
 };
 
-const playInstrument = (data) => {
-  // Do some stuff with the Thinger.io API
+const playInstrument = (message) => {
+  // TODO: Reformat message depending on how the device API and client messages look
+  thinger.play(message);
 };
 
 const startTimer = () => {
