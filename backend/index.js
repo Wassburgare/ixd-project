@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const queue = require('./queue');
+const queue = require('./src/queue');
 
 const PORT = 8081;
 const INTERVAL = 10000;
