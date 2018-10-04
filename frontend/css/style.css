@@ -1,0 +1,302 @@
+html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto Mono Sans', monospace;
+	font-size: 18px;
+	color: rgb(34, 34, 34);
+	background: rgb(237, 194, 217);
+}
+
+h1, h2, h3, h6 {
+	font-family: 'Quantico', sans-serif;
+	font-weight: 700;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+h2 {
+	font-size: 2.4em;
+	line-height: 1.1;
+	color: rgb(67, 113, 74);
+	margin-bottom: 0;
+}
+
+h3 {
+	font-size: 1.2em;
+}
+
+h6 {
+	font-size: 0.9em;
+	margin: 0;
+}
+
+header {
+	width: calc(100% - 2 * 1em);
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+header > h1 {
+	color: rgb(255, 255, 255);
+	margin: 15px 0 0;
+}
+
+main {
+	width: calc(100% - 2 * 1em);
+	max-width: 1024px;
+	margin: 0 auto 2em;
+	background: white;
+	padding: 1em;
+}
+
+main > section:first-child > h2 {
+	margin-top: 0;
+}
+
+div.stream {
+	width: 100%;
+	max-width: 700px;
+	background: rgb(174, 174, 217);
+}
+
+div.stream-container {
+	position: relative;
+	width: 100%;
+	padding-top: 56.25%;  /* 16:9 aspect ratio*/
+}
+
+div.stream-container > *:first-child {
+	background: grey;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+div.current-player {
+	margin-top: 0.4em;
+	display: flex;
+	align-items: center;
+}
+
+div.avatar {
+	margin-right: 10px;
+}
+
+div.controls {
+	margin: 30px auto 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+button.key {
+	display: inline-block;
+	font-family: 'Quantico', sans-serif;
+	font-size: 1.4em;
+	color: rgb(255, 255, 255);
+	width: 100%;
+	min-width: 40px;
+	max-width: 115px;
+	border: none;
+	border-radius: 10px;
+	margin: 0 0.3em;
+	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
+}
+
+button.key.disabled {
+	opacity: 0.6;
+}
+
+button#keyG {
+	background: rgb(54, 53, 126);
+	height: 120px;
+}
+
+button#keyG:focus {
+	background: rgb(65, 64, 206);
+}
+
+button#keyA {
+	background: rgb(67, 113, 74);
+	height: 105px;
+}
+
+button#keyA:focus {
+	background: rgb(89, 191, 105);
+}
+
+button#keyD {
+	background: rgb(235, 204, 40);
+	height: 90px;
+}
+
+button#keyD:focus {
+	background: rgb(255, 219, 35);
+}
+
+button#keyF {
+	background: rgb(229, 140, 57);
+	height: 75px;
+}
+
+button#keyF:focus {
+	background: rgb(255, 142, 38);
+}
+
+button#queue {
+	display: block;
+	width: 100%;
+	min-width: 250px;
+	max-width: 500px;
+	margin: 0 auto;
+	background: rgb(54, 53, 126);
+	font-family: 'Quantico', sans-serif;
+	font-size: 1.2em;
+	color: rgb(255, 255, 255);
+	padding: 8px 15px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
+}
+
+button#queue:focus {
+	background: rgb(65, 64, 206);
+}
+
+p#waittime {
+	font-size: 0.8em;
+	text-align: center;
+}
+
+div.queue-header {
+	border-top: 1px solid rgb(200, 200, 200);
+	border-bottom: 1px solid rgb(200, 200, 200);
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+div.waiting-players {
+	font-family: 'Quantico', sans-serif;
+	font-weight: 700;
+	font-size: 0.9em;
+}
+
+div.queue-list > ul {
+	display: block;
+	margin: 0 0 0 15px;
+	padding: 0;
+	list-style: none;
+}
+
+li.queued-user {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-bottom: 1px solid rgb(200, 200, 200);
+}
+
+div.exhibition-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+section.exhibition {
+	width: 100%;
+	max-width: 280px;
+	margin: 0 0.8em;
+}
+
+section.exhibition > h3 {
+	text-align: center;
+}
+
+section.exhibition > img {
+	max-width: 100%;
+}
+
+section.exhibition > p {
+	max-width: 80%;
+	margin: 0 auto;
+}
+
+div.partners {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+div.partners > img {
+	width: 100%;
+	max-width: 320px;
+	margin: 0 0.8em 1em;
+	align-self: center;
+}
+
+footer {
+	background: rgb(67, 113, 74);;
+	color: white;
+	padding: 0.4em;
+}
+
+footer a {
+	color: rgb(255, 255, 255);
+}
+
+footer > ul {
+	list-style: none;
+	padding-left: 0;
+	text-align: center;
+}
+
+footer > ul > li {
+	display: inline-block;
+	padding-right: 30px;
+}
+
+@media screen and (min-width: 700px) {
+	div.play {
+		display: flex;
+	}
+
+	div.stream {
+		width: 80%;
+		max-width: 75vw;
+		margin-right: 15px;
+		display: flex;
+		align-items: center;
+	}
+
+	div.controls {
+		margin-bottom: 30px;
+	}
+
+	button#keyG {
+		height: 100px;
+	}
+
+	button#keyA {
+		height: 85px;
+	}
+
+	button#keyD {
+		height: 70px;
+	}
+
+	button#keyF {
+		height: 55px;
+	}
+}
