@@ -101,11 +101,22 @@ function slideRight(button) {
 	document.getElementById(dataTarget).value = index;
 }
 
-function joinQueue(e) {
-	console.log(e);
+function createUser() {
+	var eyesValue = document.getElementById('avatarEyes').value;
+	var mouthValue = document.getElementById('avatarMouth').value;
+	var nicknameValue = document.getElementById('avatarNickname').value;
+	joinQueue(eyesValue, mouthValue, nicknameValue);
+}
+
+function joinQueue(eyes, mouth, nickname) {
+	console.log(nickname);
 	sendMessage({
 		type: 'join_queue',
-		user: {},
+		user: {
+			'eyes': eyes,
+			'mouth': mouth,
+			'nickname': nickname
+		},
 	});
 }
 

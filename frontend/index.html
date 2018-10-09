@@ -153,11 +153,11 @@
             </div>
             <div class="carouselRight">R</div>
           </div>
-          <form>
+          <form id="createAvatar" onsubmit="createUser()">
             <input id="avatarEyes" class="avatarInput" type="number" name="avatarEyes" value="0" placeholder="0" min="0" max="3" required="required">
             <input id="avatarMouth" class="avatarInput" type="number" name="avatarMouth" value="0" placeholder="0" min="0" max="3" required="">
             <label>Nickname</label>
-            <input type="text" name="nickname" placeholder="Nickname" required="required">
+            <input id="avatarNickname" type="text" name="nickname" placeholder="Nickname" required="required">
             <button>Join queue to play</button>
           </form>
         </div>
