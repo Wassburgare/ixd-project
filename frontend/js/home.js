@@ -2,9 +2,12 @@
 const socket = new WebSocket(`ws://${window.location.hostname}:8081`);
 
 socket.onmessage = (message) => {
-	switch (message.type) {
+	console.log(message);
+	var parsedMessage = JSON.parse(message.data);
+	switch (parsedMessage.type) {
 		case 'queue_updated':
 			// Do something
+			updateQueue(parsedMessage.data);
 			break;
 	}
 };
@@ -37,9 +40,13 @@ modalTrigger.addEventListener('click', function () {
 var modalCloses = document.getElementsByClassName('modalClose');
 for (var i = 0; i < modalCloses.length; i++) {
 	var closeButton = modalCloses[i].addEventListener('click', function () {
-		var modal = document.getElementById('joinModal');
-		modal.classList.remove('open');
+		closeModal();
 	})
+}
+
+function closeModal() {
+	var modal = document.getElementById('joinModal');
+	modal.classList.remove('open');
 }
 
 /* Set up carousel */
@@ -111,7 +118,15 @@ function slideRight(button) {
 	document.getElementById(dataTarget).value = index;
 }
 
-function createUser() {
+/* Form management*/
+var form = document.getElementById('createAvatar');
+form.addEventListener('submit', function(event) {
+	return createUser(event);
+});
+
+function createUser(event) {
+	closeModal();
+	event.preventDefault();
 	var eyesValue = document.getElementById('avatarEyes').value;
 	var mouthValue = document.getElementById('avatarMouth').value;
 	var nicknameValue = document.getElementById('avatarNickname').value;
@@ -123,10 +138,32 @@ function createUser() {
 	}
 	currentUser = user;
 	joinQueue(user);
+	return false;
 }
 
+function updateQueue(queuedUsers) {
+	var currentPlayer = queuedUsers.shift();
+	updateCurrentUserItem(currentPlayer);
+	queuedUsers.forEach(function (player) {
+		console.log(player.nickname)
+	});
+}
+
+function updateCurrentUserItem(user) {
+	var currentPlayerEl = document.getElementsByClassName('current-player')[0];
+	var avatarEl = currentPlayerEl.getElementsByClassName('avatar')[0];
+	avatarEl.innerHTML = user.eyes + ', ' + user.mouth;
+	var headings = currentPlayerEl.getElementsByTagName('H6');
+	headings[0].innerHTML = user.nickname + ' is currently playing';
+	headings[1].innerHTML = '02:00 until turn runs out';
+}
+
+function createQueuedUserItem(user) {
+	/**/
+}
+
+/* Socket functions send */
 function joinQueue(user) {
-	console.log(nickname);
 	sendMessage({
 		type: 'join_queue',
 		user: user
@@ -147,6 +184,7 @@ function sendMessage(message) {
 	}
 }
 
+/* Helper functions */
 function uuid() {
     return crypto.getRandomValues(new Uint32Array(4)).join('-');
 }
