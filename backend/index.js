@@ -41,6 +41,8 @@ server.on('connection', (ws) => {
       leaveQueue(ws);
     }
   });
+
+  sendMessage(ws, QUEUE_UPDATED, queue.getAllUsers());
 });
 
 const joinQueue = (user, ws) => {
@@ -60,16 +62,16 @@ const leaveQueue = (ws) => {
     stopTimer();
   }
 
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.close();
-  }
-
   informUsers();
 };
 
 const informUsers = () => {
+  const allUsers = queue.getAllUsers().map((user) => {
+    return removeUserUUID(user);
+  });
+
   server.clients.forEach((ws) => {
-    sendMessage(ws, QUEUE_UPDATED, queue.getAllUsers());
+    sendMessage(ws, QUEUE_UPDATED, allUsers);
   });
 };
 
@@ -95,6 +97,11 @@ const isTimerStarted = () => timerId !== undefined;
 
 const setCurrentUser = () => {
   leaveQueue(queue.peekWs());
+};
+
+const removeUserUUID = (user) => {
+  const { uuid, ...otherKeys } = user;
+  return otherKeys;
 };
 
 const isUserPlaying = user => queue.compareUsers(user, queue.peekUser());
