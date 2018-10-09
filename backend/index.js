@@ -6,7 +6,7 @@ const PORT = 8081;
 const INTERVAL = 10000;
 
 const JOIN_QUEUE = 'join_queue';
-const PLAY_INSTRUMENT = 'play_instrument';
+const PLAY_KEY = 'play_key';
 const QUEUE_UPDATED = 'queue_updated';
 
 const server = new WebSocket.Server({
@@ -25,9 +25,9 @@ server.on('connection', (ws) => {
       case JOIN_QUEUE:
         joinQueue(message.user, ws);
         break;
-      case PLAY_INSTRUMENT:
+      case PLAY_KEY:
         if (isUserPlaying(queue.getUserFromWs(ws))) {
-          playInstrument(message);
+          playKey(message.key);
         }
         break;
       default:
@@ -70,9 +70,9 @@ const informUsers = () => {
   });
 };
 
-const playInstrument = (message) => {
+const playKey = (key) => {
   // TODO: Reformat message depending on how the device API and client messages look
-  thinger.play(message);
+  thinger.play(key);
 };
 
 const startTimer = () => {
