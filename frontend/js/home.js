@@ -144,9 +144,11 @@ function createUser(event) {
 function updateQueue(queuedUsers) {
 	var currentPlayer = queuedUsers.shift();
 	updateCurrentUserItem(currentPlayer);
-	queuedUsers.forEach(function (player) {
-		console.log(player.nickname)
-	});
+	var isCurrent = currentPlayer.id === currentUser.id;
+	console.log(isCurrent);
+	var ulEl = document.getElementsByClassName('queue-content')[0]
+			.getElementsByTagName('UL')[0];
+	updateQueuedUsers(queuedUsers, isCurrent);
 }
 
 function updateCurrentUserItem(user) {
@@ -156,6 +158,52 @@ function updateCurrentUserItem(user) {
 	var headings = currentPlayerEl.getElementsByTagName('H6');
 	headings[0].innerHTML = user.nickname + ' is currently playing';
 	headings[1].innerHTML = '02:00 until turn runs out';
+
+	if (currentPlayerEl.id === currentUser.id) {
+		console.log('MY TURN!!!!!!!!');
+	}
+}
+
+function updateQueuedUsers(players, isCurrent) {
+	var listNode = document.getElementsByClassName('queue-content')[0]
+			.getElementsByTagName('UL')[0];
+	// Clear out list in case of stale values
+	while(listNode.firstChild) {
+		listNode.removeChild(listNode.firstChild);
+	}
+	var playersAhead = players.length > 0 ? 1 : 0;
+	var foundSelf = false;
+	players.forEach(function (player) {
+		var queuedPlayerEl = document.createElement('li');
+		queuedPlayerEl.classList.add('queued-user');
+		var avatarContainer = document.createElement('div');
+		avatarContainer.classList.add('avatar');
+		avatarContainer.innerHTML = player.eyes + ', ' + player.mouth;
+		var queuedPlayerName = document.createElement('h6');
+		queuedPlayerName.innerHTML = player.nickname;
+		queuedPlayerEl.appendChild(avatarContainer);
+		queuedPlayerEl.appendChild(queuedPlayerName);
+		listNode.appendChild(queuedPlayerEl);
+
+		if (!foundSelf && (player.id !== currentUser.id)) {
+			playersAhead++;
+		} else if (!foundSelf && (player.id === currentUser.id)) {
+			foundSelf = true;
+		}
+	});
+
+	// Set up queue header
+	console.log(playersAhead);
+	var headerText = "";
+	var followText = "";
+	if (isCurrent) {
+		followText = players.length === 1 ? ' player after you' : ' players after you';
+		headerText = players.length + followText;
+	} else {
+		followText = playersAhead === 1 ? ' player before you' : ' players before you';
+		headerText = playersAhead + followText;
+	}
+	var waitingInfo = document.getElementsByClassName('waiting-players')[0].innerHTML = headerText;
 }
 
 function createQueuedUserItem(user) {
