@@ -1,3 +1,6 @@
+/* Connect to backend */
+const socket = new WebSocket(`ws://${window.location.hostname}:8081`);
+
 /* Accordion effect for queued list of users */
 var queueHeadings = document.getElementsByClassName('queue-header');
 if (queueHeadings.length == 1) {
@@ -62,6 +65,14 @@ for (var i = 0; i < carouselRights.length; i++) {
 	});
 }
 
+const keys = document.getElementsByClassName('key');
+for (var i = 0; i < keys.length; i++) {
+	const key = keys[i];
+	key.addEventListener('click', () => {
+		playKey(key.textContent);
+	});
+}
+
 function slideLeft(button) {
 	var carousel = button.parentNode.getElementsByClassName('carouselContent')[0];
 	var dataTarget = carousel.parentNode.getAttribute('data-target');
@@ -88,4 +99,26 @@ function slideRight(button) {
 	}
 	carousel.insertBefore(slides[0], slides[slides.length-1].nextSibling)
 	document.getElementById(dataTarget).value = index;
+}
+
+function joinQueue(e) {
+	console.log(e);
+	sendMessage({
+		type: 'join_queue',
+		user: {},
+	});
+}
+
+function playKey(key) {
+	console.log(e);
+	sendMessage({
+		type: 'play_key',
+		key,
+	});
+}
+
+function sendMessage(message) {
+	if (socket.readyState === WebSocket.OPEN) {
+		socket.send(JSON.stringify(message));
+	}
 }
