@@ -68,7 +68,7 @@ const leaveQueue = (ws) => {
 };
 
 const informUsers = () => {
-  queue.getAllWs().forEach((ws) => {
+  server.clients.forEach((ws) => {
     sendMessage(ws, QUEUE_UPDATED, queue.getAllUsers());
   });
 };
@@ -77,7 +77,7 @@ const playKey = (key) => {
   // TODO: Reformat message depending on how the device API and client messages look
   thinger.play(key);
 
-  queue.getAllWs.forEach((ws) => {
+  server.clients.forEach((ws) => {
     sendMessage(ws, KEY_PLAYED, key);
   });
 };
