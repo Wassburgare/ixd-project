@@ -5,9 +5,10 @@ const wsToUser = new Map();
 const userToWs = new Map();
 
 const addUser = (user, ws) => {
-  users.push({ ...user, uuid: uuid() });
-  wsToUser.set(ws, user);
-  userToWs.set(user, ws);
+  const newUser = { ...user, uuid: uuid() };
+  users.push(newUser);
+  wsToUser.set(ws, newUser);
+  userToWs.set(newUser, ws);
 };
 
 const removeUser = (ws) => {
