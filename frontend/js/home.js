@@ -12,6 +12,17 @@ socket.onmessage = (message) => {
 	}
 };
 
+/* Connect to camera stream */
+const webRtcServer = new WebRtcStreamer('video', `${location.protocol}//${window.location.hostname}:8989`);
+
+window.onload = function() {
+	webRtcServer.connect('', '', 'rtptransport=tcp&timeout=60');
+};
+
+window.onbeforeunload = function() {
+	webRtcServer.disconnect();
+};
+
 var currentUser = {};
 
 /* Accordion effect for queued list of users */
