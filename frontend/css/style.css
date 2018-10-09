@@ -98,6 +98,10 @@ div.controls {
 	align-items: center;
 }
 
+.disabled {
+	pointer-events: none;
+}
+
 button.key {
 	display: inline-block;
 	font-family: 'Quantico', sans-serif;
@@ -112,8 +116,9 @@ button.key {
 	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
 }
 
-button.key.disabled {
+.disabled button.key {
 	opacity: 0.6;
+	box-shadow: none;
 }
 
 button#keyG {
@@ -156,8 +161,9 @@ button#keyF:focus {
 	background: rgb(255, 142, 38);
 }
 
-button#queue {
+button#playXylophone {
 	display: block;
+	overflow: hidden;
 	width: 100%;
 	min-width: 250px;
 	max-width: 500px;
@@ -172,9 +178,33 @@ button#queue {
 	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
 }
 
-button#queue:active,
-button#queue:focus {
+button#playXylophone:active,
+button#playXylophone:focus {
 	background: rgb(65, 64, 206);
+}
+
+
+button#quitPlaying {
+	display: block;
+	overflow: hidden;
+	height: 0px;
+	width: 100%;
+	min-width: 250px;
+	max-width: 500px;
+	margin: 0 auto;
+	background: rgb(211, 64, 64);
+	font-family: 'Quantico', sans-serif;
+	font-size: 1.2em;
+	color: rgb(255, 255, 255);
+	padding: 0;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
+}
+
+button#quitPlaying:active,
+button#quitPlaying:focus {
+	background: rgb(252, 42, 42);
 }
 
 p#waittime {
@@ -492,7 +522,11 @@ form > button:focus {
 			overflow: scroll;
 		}
 
-		button#queue {
+		button#quitPlaying {
+			min-width: 200px;
+		}
+
+		button#playXylophone {
 			min-width: 200px;
 		}
 	}

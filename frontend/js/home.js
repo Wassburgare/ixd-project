@@ -12,7 +12,8 @@ socket.onmessage = (message) => {
 	}
 };
 
-var currentUser = {};
+var CURRENT_USER = {};
+var CURRENT_PLAYER_ID = "";
 
 /* Accordion effect for queued list of users */
 var queueHeadings = document.getElementsByClassName('queue-header');
@@ -31,7 +32,7 @@ if (queueHeadings.length == 1) {
 }
 
 /* Modal for creating character and joining queue */
-var modalTrigger = document.getElementById('queue');
+var modalTrigger = document.getElementById('playXylophone');
 modalTrigger.addEventListener('click', function () {
 	var modal = document.getElementById('joinModal');
 	modal.classList.add('open');
@@ -136,78 +137,101 @@ function createUser(event) {
 		'nickname': nicknameValue,
 		'id': uuid()
 	}
-	currentUser = user;
+	CURRENT_USER = user;
 	joinQueue(user);
 	return false;
 }
 
-function updateQueue(queuedUsers) {
-	var currentPlayer = queuedUsers.shift();
+function updateQueue(queuedPlayers) {
+	var currentPlayer = queuedPlayers.shift();
 	updateCurrentUserItem(currentPlayer);
-	var isCurrent = currentPlayer.id === currentUser.id;
-	console.log(isCurrent);
-	var ulEl = document.getElementsByClassName('queue-content')[0]
-			.getElementsByTagName('UL')[0];
-	updateQueuedUsers(queuedUsers, isCurrent);
+	updateControls();
+	updateQueueContent(queuedPlayers);
 }
 
 function updateCurrentUserItem(user) {
 	var currentPlayerEl = document.getElementsByClassName('current-player')[0];
 	var avatarEl = currentPlayerEl.getElementsByClassName('avatar')[0];
-	avatarEl.innerHTML = user.eyes + ', ' + user.mouth;
 	var headings = currentPlayerEl.getElementsByTagName('H6');
-	headings[0].innerHTML = user.nickname + ' is currently playing';
-	headings[1].innerHTML = '02:00 until turn runs out';
-
-	if (currentPlayerEl.id === currentUser.id) {
-		console.log('MY TURN!!!!!!!!');
+	if (user) {
+		CURRENT_PLAYER_ID = user.id;
+		avatarEl.innerHTML = user.eyes + ', ' + user.mouth;
+		headings[1].innerHTML = '02:00 until turn runs out';
+		if (user.id === CURRENT_USER.id) {
+			headings[0].innerHTML = 'You are currently playing'
+		} else {
+			headings[0].innerHTML = user.nickname + ' is currently playing';
+		}
+	} else {
+		/* No one left in the queue to play */
+		CURRENT_PLAYER_ID = "";
+		avatarEl.innerHTML = ':)';
+		headings[0].innerHTML = 'No one is currently playing';
+		headings[1].innerHTML = '---';
 	}
 }
 
-function updateQueuedUsers(players, isCurrent) {
+function updateControls() {
+	var controls = document.getElementsByClassName('controls')[0];
+	var quitButton = document.getElementById('quitPlaying');
+	var playButton = document.getElementById('playXylophone');
+	if (CURRENT_PLAYER_ID === CURRENT_USER.id) {
+		controls.classList.remove('disabled');
+		quitButton.style.padding = '8px 15px';
+		quitButton.style.height = 'auto';
+		playButton.style.padding = '0';
+		playButton.style.height = '0px';
+	} else {
+		controls.classList.add('disabled');
+		playButton.style.padding = '8px 15px';
+		playButton.style.height = 'auto';
+		quitButton.style.padding = '0';
+		quitButton.style.height = '0px';
+	}
+}
+
+function updateQueueContent(queuedPlayers) {
+	var playersAhead = CURRENT_PLAYER_ID === "" ? 0 : 1;
+	var foundSelf = false;
+
 	var listNode = document.getElementsByClassName('queue-content')[0]
 			.getElementsByTagName('UL')[0];
 	// Clear out list in case of stale values
 	while(listNode.firstChild) {
 		listNode.removeChild(listNode.firstChild);
 	}
-	var playersAhead = players.length > 0 ? 1 : 0;
-	var foundSelf = false;
-	players.forEach(function (player) {
+
+	// Create content for queue
+	queuedPlayers.forEach(function (player) {
+		// Set values
 		var queuedPlayerEl = document.createElement('li');
-		queuedPlayerEl.classList.add('queued-user');
 		var avatarContainer = document.createElement('div');
+		var queuedPlayerName = document.createElement('h6');
+		queuedPlayerEl.classList.add('queued-user');
 		avatarContainer.classList.add('avatar');
 		avatarContainer.innerHTML = player.eyes + ', ' + player.mouth;
-		var queuedPlayerName = document.createElement('h6');
 		queuedPlayerName.innerHTML = player.nickname;
 		queuedPlayerEl.appendChild(avatarContainer);
 		queuedPlayerEl.appendChild(queuedPlayerName);
 		listNode.appendChild(queuedPlayerEl);
 
-		if (!foundSelf && (player.id !== currentUser.id)) {
+		if (!foundSelf && (player.id !== CURRENT_USER.id)) {
 			playersAhead++;
-		} else if (!foundSelf && (player.id === currentUser.id)) {
+		} else if (!foundSelf && (player.id === CURRENT_USER.id)) {
 			foundSelf = true;
 		}
 	});
 
 	// Set up queue header
-	console.log(playersAhead);
-	var headerText = "";
+	var waitingEl = document.getElementsByClassName('waiting-players')[0];
 	var followText = "";
-	if (isCurrent) {
-		followText = players.length === 1 ? ' player after you' : ' players after you';
-		headerText = players.length + followText;
+	if (CURRENT_PLAYER_ID === CURRENT_USER.id) {
+		followText = queuedPlayers.length === 1 ? ' player after you' : ' players after you';
+		waitingEl.innerHTML = queuedPlayers.length + followText;
 	} else {
 		followText = playersAhead === 1 ? ' player before you' : ' players before you';
-		headerText = playersAhead + followText;
+		waitingEl.innerHTML = playersAhead + followText;
 	}
-	var waitingInfo = document.getElementsByClassName('waiting-players')[0].innerHTML = headerText;
-}
-
-function createQueuedUserItem(user) {
-	/**/
 }
 
 /* Socket functions send */
