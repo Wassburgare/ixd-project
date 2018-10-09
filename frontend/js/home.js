@@ -1,6 +1,14 @@
 /* Connect to backend */
 const socket = new WebSocket(`ws://${window.location.hostname}:8081`);
 
+socket.onmessage = (message) => {
+	switch (message.type) {
+		case 'queue_updated':
+			// Do something
+			break;
+	}
+};
+
 var currentUser = {};
 
 /* Accordion effect for queued list of users */
