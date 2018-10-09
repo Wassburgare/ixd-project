@@ -1,6 +1,8 @@
 /* Connect to backend */
 const socket = new WebSocket(`ws://${window.location.hostname}:8081`);
 
+var currentUser = {};
+
 /* Accordion effect for queued list of users */
 var queueHeadings = document.getElementsByClassName('queue-header');
 if (queueHeadings.length == 1) {
@@ -105,18 +107,21 @@ function createUser() {
 	var eyesValue = document.getElementById('avatarEyes').value;
 	var mouthValue = document.getElementById('avatarMouth').value;
 	var nicknameValue = document.getElementById('avatarNickname').value;
-	joinQueue(eyesValue, mouthValue, nicknameValue);
+	var user = {
+		'eyes': eyesValue,
+		'mouth': mouthValue,
+		'nickname': nicknameValue,
+		'id': uuid()
+	}
+	currentUser = user;
+	joinQueue(user);
 }
 
-function joinQueue(eyes, mouth, nickname) {
+function joinQueue(user) {
 	console.log(nickname);
 	sendMessage({
 		type: 'join_queue',
-		user: {
-			'eyes': eyes,
-			'mouth': mouth,
-			'nickname': nickname
-		},
+		user: user
 	});
 }
 
@@ -132,4 +137,8 @@ function sendMessage(message) {
 	if (socket.readyState === WebSocket.OPEN) {
 		socket.send(JSON.stringify(message));
 	}
+}
+
+function uuid() {
+    return crypto.getRandomValues(new Uint32Array(4)).join('-');
 }
