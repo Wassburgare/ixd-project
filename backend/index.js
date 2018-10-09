@@ -41,6 +41,8 @@ server.on('connection', (ws) => {
       leaveQueue(ws);
     }
   });
+
+  sendMessage(ws, QUEUE_UPDATED, queue.getAllUsers());
 });
 
 const joinQueue = (user, ws) => {
