@@ -28,26 +28,28 @@
             </div>
           </div>
 
-          <div class="play-information">
-            <div class="current-player">
-              <div class="avatar">:)</div>
-              <div>
-                <h6>Jonas is currently playing<h6>
-                <h6>0:35 until turn is over<h6>
+          <div class="control-center">
+            <div class="play-information">
+              <div class="current-player">
+                <div class="avatar">:)</div>
+                <div>
+                  <h6>Jonas is currently playing<h6>
+                  <h6>0:35 until turn is over<h6>
+                </div>
               </div>
-            </div>
 
-            <div class="controls">
-              <button class="key" id="keyG">G</button>
-              <button class="key" id="keyA">A</button>
-              <button class="key" id="keyD">D</button>
-              <button class="key" id="keyF">F</button>
-            </div>
+              <div class="controls">
+                <button class="key" id="keyG">G</button>
+                <button class="key" id="keyA">A</button>
+                <button class="key" id="keyD">D</button>
+                <button class="key" id="keyF">F</button>
+              </div>
 
-            <button id="queue">Play xylophone</button>
-            <p id="waittime">Estimated wait: none</p>
+              <button id="queue">Play xylophone</button>
+              <p id="waittime">Estimated wait: none</p>
+            </div> <!-- end play-information -->
 
-            <div class="queue-list">
+            <div class="queue-information close">
               <div class="queue-header">
                 <div class="waiting-players"><span id="queued-users">2</span> players before you
                 </div>
@@ -57,23 +59,24 @@
                 </div>
               </div>
               
-              <ul>
-                <li class="queued-user">
-                  <div class="avatar">
-                    :)
-                  </div>
-                  <h6>Anna</h6>
-                </li>
+              <div class="queue-content">
+                <ul>
+                  <li class="queued-user">
+                    <div class="avatar">
+                      :)
+                    </div>
+                    <h6>Anna</h6>
+                  </li>
 
-                <li class="queued-user">
-                  <div class="avatar">
-                    :)
-                  </div>
-                  <h6>Anna</h6>
-                </li>
-              </ul>
+                  <li class="queued-user">
+                    <div class="avatar">
+                      :)
+                    </div>
+                    <h6>Anna</h6>
+                  </li>
+                </ul>
+              </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -119,5 +122,48 @@
         <li>Privacy policy</li>
       </ul>
     </footer>
+
+    <div id="joinModal" class="modal">
+      <div class="modalOverlay">
+        <div class="modalContainer">
+          <button class="modalClose">&#10005;</button>
+          <h3>Play xylophone</h3>
+          <p>Create an avatar to be displayed at the Universeum exhibit. You may have to wait to play if there are other players ahead of you in the queue.</p>
+          <div class="carouselContainer">
+            <div class="carouselLeft">L</div>
+            <div class="carousel" data-target="avatarEyes">
+              <div class="carouselContent">
+                <div class="carouselSlide">0</div>
+                <div class="carouselSlide">1</div>
+                <div class="carouselSlide">2</div>
+                <div class="carouselSlide">3</div>
+              </div>
+            </div>
+            <div class="carouselRight">R</div>
+          </div>
+          <div class="carouselContainer">
+            <div class="carouselLeft">L</div>
+            <div class="carousel" data-target="avatarMouth">
+              <div class="carouselContent">
+                <div class="carouselSlide">0</div>
+                <div class="carouselSlide">1</div>
+                <div class="carouselSlide">2</div>
+                <div class="carouselSlide">3</div>
+              </div>
+            </div>
+            <div class="carouselRight">R</div>
+          </div>
+          <form>
+            <input id="avatarEyes" class="avatarInput" type="number" name="avatarEyes" value="0" placeholder="0" min="0" max="3" required="required">
+            <input id="avatarMouth" class="avatarInput" type="number" name="avatarMouth" value="0" placeholder="0" min="0" max="3" required="">
+            <label>Nickname</label>
+            <input type="text" name="nickname" placeholder="Nickname" required="required">
+            <button>Join queue to play</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/home.js" type="text/javascript"></script>
   </body>
 </html>
