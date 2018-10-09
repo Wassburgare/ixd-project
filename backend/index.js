@@ -59,7 +59,9 @@ const leaveQueue = (ws) => {
     stopTimer();
   }
 
-  ws.close();
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.close();
+  }
 
   informUsers();
 };
