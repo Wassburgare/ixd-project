@@ -7,6 +7,7 @@ const INTERVAL = 10000;
 
 const JOIN_QUEUE = 'join_queue';
 const PLAY_KEY = 'play_key';
+const KEY_PLAYED = 'key_played';
 const QUEUE_UPDATED = 'queue_updated';
 
 const server = new WebSocket.Server({
@@ -75,6 +76,10 @@ const informUsers = () => {
 const playKey = (key) => {
   // TODO: Reformat message depending on how the device API and client messages look
   thinger.play(key);
+
+  queue.getAllWs.forEach((ws) => {
+    sendMessage(ws, KEY_PLAYED, key);
+  });
 };
 
 const startTimer = () => {
