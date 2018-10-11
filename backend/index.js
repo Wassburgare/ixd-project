@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const timeSpan = require('time-span');
 const queue = require('./src/queue');
 const thinger = require('./src/thinger');
 
@@ -10,6 +11,8 @@ const LEAVE_QUEUE = 'leave_queue';
 const PLAY_KEY = 'play_key';
 const KEY_PLAYED = 'key_played';
 const QUEUE_UPDATED = 'queue_updated';
+
+let elapsedTime;
 
 const server = new WebSocket.Server({
   port: PORT,
@@ -50,7 +53,8 @@ server.on('connection', (ws) => {
     }
   });
 
-  sendMessage(ws, QUEUE_UPDATED, queue.getAllUsers());
+  const allUsers = queue.getAllUsers().map(user => removeUserUUID(user));
+  sendMessage(ws, QUEUE_UPDATED, allUsers);
 });
 
 const joinQueue = (user, ws) => {
@@ -74,9 +78,11 @@ const leaveQueue = (ws) => {
 };
 
 const informUsers = () => {
-  const allUsers = queue.getAllUsers().map((user) => {
-    return removeUserUUID(user);
-  });
+  const allUsers = queue.getAllUsers().map(user => removeUserUUID(user));
+
+  if (elapsedTime) {
+    allUsers[0].timeLeft = INTERVAL - elapsedTime.rounded();
+  }
 
   server.clients.forEach((ws) => {
     sendMessage(ws, QUEUE_UPDATED, allUsers);
@@ -94,16 +100,19 @@ const playKey = (key) => {
 
 const startTimer = () => {
   timerId = setInterval(setCurrentUser, INTERVAL);
+  elapsedTime = timeSpan();
 };
 
 const stopTimer = () => {
   clearInterval(timerId);
   timerId = undefined;
+  elapsedTime = undefined;
 };
 
 const isTimerStarted = () => timerId !== undefined;
 
 const setCurrentUser = () => {
+  elapsedTime = timeSpan();
   leaveQueue(queue.peekWs());
 };
 
