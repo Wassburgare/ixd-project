@@ -5,8 +5,10 @@ socket.onmessage = (message) => {
 	var parsedMessage = JSON.parse(message.data);
 	switch (parsedMessage.type) {
 		case 'queue_updated':
-			// Do something
 			updateQueue(parsedMessage.data);
+			break;
+		case 'key_played':
+			updateKeyPlayed(parsedMessage.data);
 			break;
 	}
 };
@@ -43,7 +45,7 @@ if (queueHeadings.length == 1) {
 
 var quitPlayingButton = document.getElementById('quitPlaying');
 quitPlayingButton.addEventListener('click', function () {
-	// TODO
+	leaveQueue(CURRENT_USER);
 });
 
 /* Modal for creating character and joining queue */
@@ -102,7 +104,7 @@ const keys = document.getElementsByClassName('key');
 for (var i = 0; i < keys.length; i++) {
 	const key = keys[i];
 	key.addEventListener('click', () => {
-		playKey(key.textContent);
+		playKey(key.id);
 	});
 }
 
@@ -160,8 +162,8 @@ function createUser(event) {
 function updateQueue(queuedPlayers) {
 	var currentPlayer = queuedPlayers.shift();
 	updateCurrentUserItem(currentPlayer);
-	updateControls();
-	updateQueueContent(queuedPlayers);
+	var inQueue = updateQueueContent(queuedPlayers);
+	updateControls(inQueue);
 	updateEstimatedWait(queuedPlayers.length);
 }
 
@@ -187,20 +189,49 @@ function updateCurrentUserItem(user) {
 	}
 }
 
-function updateControls() {
+function updateControls(inQueue) {
 	var controls = document.getElementsByClassName('controls')[0];
 	var quitButton = document.getElementById('quitPlaying');
 	var playButton = document.getElementById('playXylophone');
+
 	if (CURRENT_PLAYER_ID === CURRENT_USER.id) {
 		controls.classList.remove('disabled');
-		quitButton.style.padding = '8px 15px';
-		quitButton.style.height = 'auto';
-		playButton.style.padding = '0';
-		playButton.style.height = '0px';
+		hidePlayButton();
+		showQuitButton(false);
 	} else {
 		controls.classList.add('disabled');
+		if (inQueue) {
+			hidePlayButton();
+			showQuitButton(inQueue);
+		} else {
+			// Not yet in queue
+			showPlayButton();
+			hideQuitButton();
+		}
+	}
+
+	function showPlayButton() {
 		playButton.style.padding = '8px 15px';
-		playButton.style.height = 'auto';
+		playButton.style.height = 'auto'
+	}
+
+	function hidePlayButton() {
+		playButton.style.padding = '0';
+		playButton.style.height = '0px';
+	}
+
+	function showQuitButton(inQueue) {
+		quitButton.style.padding = '8px 15px';
+		quitButton.style.height = 'auto';
+
+		if (inQueue) {
+			quitButton.innerHTML = "Leave queue to play";
+		} else {
+			quitButton.innerHTML = 'Quit playing';
+		}
+	}
+
+	function hideQuitButton() {
 		quitButton.style.padding = '0';
 		quitButton.style.height = '0px';
 	}
@@ -248,6 +279,9 @@ function updateQueueContent(queuedPlayers) {
 		followText = playersAhead === 1 ? ' player before you' : ' players before you';
 		waitingEl.innerHTML = playersAhead + followText;
 	}
+
+	// Return whether or not current player was found in the queue
+	return foundSelf;
 }
 
 function updateEstimatedWait(numQueuedPlayers) {
@@ -262,6 +296,20 @@ function updateEstimatedWait(numQueuedPlayers) {
 	}
 }
 
+function updateKeyPlayed(key) {
+	if (CURRENT_PLAYER_ID === CURRENT_USER.id) {
+		// Do not show for current player
+		return;
+	}
+
+	console.log('received', key);
+	var keyPlayed = document.getElementById(key);
+	keyPlayed.classList.add('played');
+	setTimeout(function () {
+		keyPlayed.classList.remove('played');
+	}, 1000);
+}
+
 /* Socket functions send */
 function joinQueue(user) {
 	sendMessage({
@@ -272,15 +320,16 @@ function joinQueue(user) {
 
 function leaveQueue(user) {
 	sendMessage({
-		type: 'leave_queue',
+		type: 'leave_queue'
 	});
 }
 
+// Pass key as key button id on DOM
 function playKey(key) {
-	console.log(e);
+	console.log('send', key);
 	sendMessage({
 		type: 'play_key',
-		key,
+		key: key,
 	});
 }
 

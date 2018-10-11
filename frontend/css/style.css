@@ -132,6 +132,13 @@ button#keyG:focus {
 	background: rgb(65, 64, 206);
 }
 
+button#keyG.played {
+	opacity: 1;
+	background: rgb(65, 64, 206);
+	box-shadow: 0px 4px 4px rgba(65, 64, 206, 0.4);
+	transition: all 0.3s linear;
+}
+
 button#keyA {
 	background: rgb(67, 113, 74);
 	height: 105px;
@@ -140,6 +147,13 @@ button#keyA {
 button#keyA:active,
 button#keyA:focus {
 	background: rgb(89, 191, 105);
+}
+
+button#keyA.played {
+	opacity: 1;
+	background: rgb(89, 191, 105);
+	box-shadow: 0px 4px 4px rgba(89, 191, 105, 0.4);
+	transition: all 0.3s linear;
 }
 
 button#keyD {
@@ -152,6 +166,13 @@ button#keyD:focus {
 	background: rgb(255, 219, 35);
 }
 
+button#keyD.played {
+	opacity: 1;
+	background: rgb(255, 219, 35);
+	box-shadow: 0px 4px 4px rgba(255, 219, 35, 0.4);
+	transition: all 0.3s ease-out;
+}
+
 button#keyF {
 	background: rgb(229, 140, 57);
 	height: 75px;
@@ -160,6 +181,13 @@ button#keyF {
 button#keyF:active,
 button#keyF:focus {
 	background: rgb(255, 142, 38);
+}
+
+button#keyF.played {
+	opacity: 1;
+	background: rgb(255, 142, 38);
+	box-shadow: 0px 4px 4px rgba(255, 142, 38, 0.4);
+	transition: all 0.3s linear;
 }
 
 button#playXylophone {
