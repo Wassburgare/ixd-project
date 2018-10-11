@@ -6,6 +6,7 @@ const PORT = 8081;
 const INTERVAL = 10000;
 
 const JOIN_QUEUE = 'join_queue';
+const LEAVE_QUEUE = 'leave_queue';
 const PLAY_KEY = 'play_key';
 const KEY_PLAYED = 'key_played';
 const QUEUE_UPDATED = 'queue_updated';
@@ -24,7 +25,14 @@ server.on('connection', (ws) => {
 
     switch (message.type) {
       case JOIN_QUEUE:
-        joinQueue(message.user, ws);
+        if (!queue.hasWs(ws)) {
+          joinQueue(message.user, ws);
+        }
+        break;
+      case LEAVE_QUEUE:
+        if (queue.hasWs(ws)) {
+          leaveQueue(ws);
+        }
         break;
       case PLAY_KEY:
         if (isUserPlaying(queue.getUserFromWs(ws))) {
