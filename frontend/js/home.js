@@ -2,7 +2,6 @@
 const socket = new WebSocket(`ws://${window.location.hostname}:8081`);
 
 socket.onmessage = (message) => {
-	console.log(message);
 	var parsedMessage = JSON.parse(message.data);
 	switch (parsedMessage.type) {
 		case 'queue_updated':
@@ -23,7 +22,6 @@ window.onbeforeunload = function() {
 	webRtcServer.disconnect();
 };
 
-var currentUser = {};
 var CURRENT_USER = {};
 var CURRENT_PLAYER_ID = "";
 
@@ -42,6 +40,11 @@ if (queueHeadings.length == 1) {
 		}
 	});
 }
+
+var quitPlayingButton = document.getElementById('quitPlaying');
+quitPlayingButton.addEventListener('click', function () {
+	// TODO
+});
 
 /* Modal for creating character and joining queue */
 var modalTrigger = document.getElementById('playXylophone');
@@ -159,6 +162,7 @@ function updateQueue(queuedPlayers) {
 	updateCurrentUserItem(currentPlayer);
 	updateControls();
 	updateQueueContent(queuedPlayers);
+	updateEstimatedWait(queuedPlayers.length);
 }
 
 function updateCurrentUserItem(user) {
@@ -246,11 +250,29 @@ function updateQueueContent(queuedPlayers) {
 	}
 }
 
+function updateEstimatedWait(numQueuedPlayers) {
+	var waitTime = CURRENT_PLAYER_ID === "" ? 0 : 1;
+	waitTime += 2 * numQueuedPlayers;
+	var waitTimeEl = document.getElementById('waittime');
+	if ( waitTime == 0) {
+		// No one is currently playing
+		waitTimeEl.innerHTML = "Estimated wait: none";
+	} else {
+		waitTimeEl.innerHTML = "Estimated wait: " + waitTime + " min";
+	}
+}
+
 /* Socket functions send */
 function joinQueue(user) {
 	sendMessage({
 		type: 'join_queue',
 		user: user
+	});
+}
+
+function leaveQueue(user) {
+	sendMessage({
+		type: 'leave_queue',
 	});
 }
 

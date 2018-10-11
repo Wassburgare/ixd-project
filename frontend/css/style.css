@@ -9,7 +9,8 @@ body {
 	font-family: 'Roboto Mono Sans', monospace;
 	font-size: 14px;
 	color: rgb(34, 34, 34);
-	background: rgb(237, 194, 217);
+	/*background: rgb(237, 194, 217);*/
+	background: radial-gradient(rgb(174, 174, 217), rgb(237, 194, 217));
 }
 
 h1, h2, h3, h6 {
