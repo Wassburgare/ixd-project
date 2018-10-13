@@ -89,7 +89,16 @@ div.current-player {
 }
 
 div.avatar {
+	width: 40px;
+	max-width: 40px;
+	overflow-x: hidden;
 	margin-right: 10px;
+}
+
+div.avatar > img {
+	display: block;
+	height: 20px;
+	max-height: 20px;
 }
 
 div.controls {
@@ -425,7 +434,6 @@ div.carousel {
 	max-width: 150px;
 	height: 60px;
 	overflow: hidden;
-	border: 1px pink solid;
 }
 
 div.carouselContent {
@@ -442,6 +450,11 @@ div.carouselSlide {
 	position: relative;
 	float: left;
 	transform: translateX(-150px);
+}
+
+div.carouselSlide > img {
+	height: 100%;
+	max-height: 100%;
 }
 
 input.avatarInput {

@@ -173,7 +173,7 @@ function updateCurrentUserItem(user) {
 	var headings = currentPlayerEl.getElementsByTagName('H6');
 	if (user) {
 		CURRENT_PLAYER_ID = user.id;
-		avatarEl.innerHTML = user.eyes + ', ' + user.mouth;
+		createAvatar(avatarEl, user.eyes, user.mouth);
 		headings[1].innerHTML = '02:00 until turn runs out';
 		if (user.id === CURRENT_USER.id) {
 			headings[0].innerHTML = 'You are currently playing'
@@ -256,7 +256,8 @@ function updateQueueContent(queuedPlayers) {
 		var queuedPlayerName = document.createElement('h6');
 		queuedPlayerEl.classList.add('queued-user');
 		avatarContainer.classList.add('avatar');
-		avatarContainer.innerHTML = player.eyes + ', ' + player.mouth;
+		createAvatar(avatarContainer, player.eyes, player.mouth);
+		// avatarContainer.innerHTML = player.eyes + ', ' + player.mouth;
 		queuedPlayerName.innerHTML = player.nickname;
 		queuedPlayerEl.appendChild(avatarContainer);
 		queuedPlayerEl.appendChild(queuedPlayerName);
@@ -282,6 +283,18 @@ function updateQueueContent(queuedPlayers) {
 
 	// Return whether or not current player was found in the queue
 	return foundSelf;
+}
+
+function createAvatar(container, eyes, mouth) {
+	container.innerHTML = "";
+	const eyesSource = '/img/Eyes-' + eyes + '.svg';
+	const mouthSource = '/img/Mouth-' + mouth + '.svg';
+	var eyesEl = document.createElement('IMG');
+	eyesEl.src = eyesSource;
+	var mouthEl = document.createElement('IMG');
+	mouthEl.src = mouthSource;
+	container.appendChild(eyesEl);
+	container.appendChild(mouthEl); 
 }
 
 function updateEstimatedWait(numQueuedPlayers) {
