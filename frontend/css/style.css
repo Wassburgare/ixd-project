@@ -84,8 +84,13 @@ div.stream-container > *:first-child {
 
 div.current-player {
 	margin-top: 0.4em;
+	padding: 5px 10px;
 	display: flex;
 	align-items: center;
+}
+
+div.current-player span.waittime {
+	color: rgb(211, 64, 64);
 }
 
 div.avatar {
@@ -275,9 +280,9 @@ div.waiting-players {
 	font-size: 0.9em;
 }
 
-div.queue-list > ul {
+div.queue-content > ul {
 	display: block;
-	margin: 0 0 0 15px;
+	margin: 0;
 	padding: 0;
 	list-style: none;
 }
@@ -285,8 +290,13 @@ div.queue-list > ul {
 li.queued-user {
 	display: flex;
 	align-items: center;
-	padding: 10px;
+	padding: 5px 10px;
 	border-bottom: 1px solid rgb(200, 200, 200);
+	margin-left: 10px;
+}
+
+.self-user {
+	background: rgba(255, 219, 35, 0.3);
 }
 
 div.exhibition-container {

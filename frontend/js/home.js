@@ -26,6 +26,8 @@ window.onbeforeunload = function() {
 
 var CURRENT_USER = {};
 var CURRENT_PLAYER_ID = "";
+var CURRENT_TIME_LEFT = undefined;
+var CURRENT_TIMER = null;
 
 /* Accordion effect for queued list of users */
 var queueHeadings = document.getElementsByClassName('queue-header');
@@ -171,11 +173,20 @@ function updateCurrentUserItem(user) {
 	var currentPlayerEl = document.getElementsByClassName('current-player')[0];
 	var avatarEl = currentPlayerEl.getElementsByClassName('avatar')[0];
 	var headings = currentPlayerEl.getElementsByTagName('H6');
+	currentPlayerEl.classList.remove('self-user');
 	if (user) {
 		CURRENT_PLAYER_ID = user.id;
 		createAvatar(avatarEl, user.eyes, user.mouth);
-		headings[1].innerHTML = '02:00 until turn runs out';
+		if (user.timeLeft !== undefined) {
+			CURRENT_TIME_LEFT = user.timeLeft - 500;
+			CURRENT_TIMER = setInterval(setTime, 1000);
+		} else {
+			CURRENT_TIME_LEFT = user.timeLeft;
+			clearInterval(CURRENT_TIMER);
+		}
+		headings[1].innerHTML = '<span class="waittime">' + timeToLabel(CURRENT_TIME_LEFT) + '</span> until turn runs out';
 		if (user.id === CURRENT_USER.id) {
+			currentPlayerEl.classList.add('self-user');
 			headings[0].innerHTML = 'You are currently playing'
 		} else {
 			headings[0].innerHTML = user.nickname + ' is currently playing';
@@ -267,6 +278,7 @@ function updateQueueContent(queuedPlayers) {
 			playersAhead++;
 		} else if (!foundSelf && (player.id === CURRENT_USER.id)) {
 			foundSelf = true;
+			queuedPlayerEl.classList.add('self-user')
 		}
 	});
 
@@ -315,7 +327,6 @@ function updateKeyPlayed(key) {
 		return;
 	}
 
-	console.log('received', key);
 	var keyPlayed = document.getElementById(key);
 	keyPlayed.classList.add('played');
 	setTimeout(function () {
@@ -339,7 +350,6 @@ function leaveQueue(user) {
 
 // Pass key as key button id on DOM
 function playKey(key) {
-	console.log('send', key);
 	sendMessage({
 		type: 'play_key',
 		key: key,
@@ -355,4 +365,39 @@ function sendMessage(message) {
 /* Helper functions */
 function uuid() {
     return crypto.getRandomValues(new Uint32Array(4)).join('-');
+}
+
+/*
+	timeMs is the time remaining in the turn in milliseconds
+	returns time as a String
+*/
+function timeToLabel(timeMs) {
+	if (timeMs !== undefined) {
+		var x = timeMs / 1000;
+		const seconds = Math.round(x % 60);
+		x /= 60;
+		const minutes = Math.round(x % 60);
+		return minutes.pad() + ':' + seconds.pad();
+	} else {
+		return '---';
+	}
+}
+
+function setTime() {
+	if ((CURRENT_TIME_LEFT !== null) && (CURRENT_TIME_LEFT-1000 > 0)) {
+		var waittimeEls = document.getElementsByClassName('waittime');
+		for (var i = 0; i < waittimeEls.length; i++) {
+			const waittimeEl = waittimeEls[i];
+			CURRENT_TIME_LEFT -= 1000;
+			waittimeEl.innerHTML = timeToLabel(CURRENT_TIME_LEFT);
+		}
+	} else {
+		clearInterval(CURRENT_TIMER);
+	}
+}
+
+Number.prototype.pad = function(size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
 }
