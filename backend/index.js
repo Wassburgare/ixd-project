@@ -4,7 +4,7 @@ const queue = require('./src/queue');
 const thinger = require('./src/thinger');
 
 const PORT = 8081;
-const INTERVAL = 10000;
+const INTERVAL = 120000;
 
 const JOIN_QUEUE = 'join_queue';
 const LEAVE_QUEUE = 'leave_queue';

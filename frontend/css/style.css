@@ -61,6 +61,10 @@ main > section:first-child > h2 {
 	margin-top: 0;
 }
 
+button {
+	cursor: pointer;
+}
+
 div.stream {
 	width: 100%;
 	max-width: 700px;
@@ -266,6 +270,19 @@ p#waittime {
 	overflow: scroll;
 }
 
+div#queue-button {
+	background-image: url('/img/button-right.svg');
+	background-repeat: no-repeat;
+	background-size: 15px 20px;
+	width: 15px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.open div#queue-button {
+	transform: rotate(90deg);
+}
+
 div.queue-header {
 	border-top: 1px solid rgb(200, 200, 200);
 	border-bottom: 1px solid rgb(200, 200, 200);
@@ -465,6 +482,24 @@ div.carouselSlide {
 div.carouselSlide > img {
 	height: 100%;
 	max-height: 100%;
+}
+
+.carouselRight {
+	background-image: url('/img/button-right.svg');
+	background-repeat: no-repeat;
+	background-size: 15px 25px;
+	width: 15px;
+	height: 25px;
+	cursor: pointer;
+}
+
+.carouselLeft {
+	background-image: url('/img/button-left.svg');
+	background-repeat: no-repeat;
+	background-size: 15px 25px;
+	width: 15px;
+	height: 25px;
+	cursor: pointer;
 }
 
 input.avatarInput {

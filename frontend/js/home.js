@@ -162,7 +162,11 @@ function createUser(event) {
 }
 
 function updateQueue(queuedPlayers) {
-	var currentPlayer = queuedPlayers.shift();
+	var currentPlayer = null;
+	if (queuedPlayers.length > 0) {
+		currentPlayer = queuedPlayers[0];
+	}
+	// var currentPlayer = queuedPlayers.shift();
 	updateCurrentUserItem(currentPlayer);
 	var inQueue = updateQueueContent(queuedPlayers);
 	updateControls(inQueue);
@@ -177,6 +181,7 @@ function updateCurrentUserItem(user) {
 	if (user) {
 		CURRENT_PLAYER_ID = user.id;
 		createAvatar(avatarEl, user.eyes, user.mouth);
+		clearInterval(CURRENT_TIMER);
 		if (user.timeLeft !== undefined) {
 			CURRENT_TIME_LEFT = user.timeLeft - 500;
 			CURRENT_TIMER = setInterval(setTime, 1000);
@@ -249,7 +254,7 @@ function updateControls(inQueue) {
 }
 
 function updateQueueContent(queuedPlayers) {
-	var playersAhead = CURRENT_PLAYER_ID === "" ? 0 : 1;
+	var playersAhead = 0;
 	var foundSelf = false;
 
 	var listNode = document.getElementsByClassName('queue-content')[0]
@@ -286,8 +291,8 @@ function updateQueueContent(queuedPlayers) {
 	var waitingEl = document.getElementsByClassName('waiting-players')[0];
 	var followText = "";
 	if (CURRENT_PLAYER_ID === CURRENT_USER.id) {
-		followText = queuedPlayers.length === 1 ? ' player after you' : ' players after you';
-		waitingEl.innerHTML = queuedPlayers.length + followText;
+		followText = queuedPlayers.length-1 === 1 ? ' player after you' : ' players after you';
+		waitingEl.innerHTML = queuedPlayers.length-1 + followText;
 	} else {
 		followText = playersAhead === 1 ? ' player before you' : ' players before you';
 		waitingEl.innerHTML = playersAhead + followText;
@@ -310,7 +315,7 @@ function createAvatar(container, eyes, mouth) {
 }
 
 function updateEstimatedWait(numQueuedPlayers) {
-	var waitTime = CURRENT_PLAYER_ID === "" ? 0 : 1;
+	var waitTime = 0;
 	waitTime += 2 * numQueuedPlayers;
 	var waitTimeEl = document.getElementById('waittime');
 	if ( waitTime == 0) {
@@ -373,10 +378,10 @@ function uuid() {
 */
 function timeToLabel(timeMs) {
 	if (timeMs !== undefined) {
-		var x = timeMs / 1000;
-		const seconds = Math.round(x % 60);
+		var x = Math.floor(timeMs / 1000);
+		const seconds = Math.floor(x % 60);
 		x /= 60;
-		const minutes = Math.round(x % 60);
+		const minutes = Math.floor(x % 60);
 		return minutes.pad() + ':' + seconds.pad();
 	} else {
 		return '---';
