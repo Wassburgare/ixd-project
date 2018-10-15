@@ -28,7 +28,8 @@ server.on('connection', (ws) => {
 
     switch (message.type) {
       case JOIN_QUEUE:
-        if (!queue.hasWs(ws)) {
+        // TODO: Respond with error message if user is not added
+        if (!queue.hasWs(ws) && isUserValid(message.user)) {
           joinQueue(message.user, ws);
         }
         break;
@@ -88,6 +89,9 @@ const informUsers = () => {
     sendMessage(ws, QUEUE_UPDATED, allUsers);
   });
 };
+
+const isUserValid = user => ['nickname', 'eyes', 'mouth']
+  .every(property => Object.prototype.hasOwnProperty.call(user, property));
 
 const playKey = (key) => {
   // TODO: Reformat message depending on how the device API and client messages look
