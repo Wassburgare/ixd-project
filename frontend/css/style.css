@@ -7,9 +7,10 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Roboto Mono Sans', monospace;
-	font-size: 18px;
+	font-size: 14px;
 	color: rgb(34, 34, 34);
-	background: rgb(237, 194, 217);
+	/*background: rgb(237, 194, 217);*/
+	background: radial-gradient(rgb(174, 174, 217), rgb(237, 194, 217));
 }
 
 h1, h2, h3, h6 {
@@ -60,6 +61,10 @@ main > section:first-child > h2 {
 	margin-top: 0;
 }
 
+button {
+	cursor: pointer;
+}
+
 div.stream {
 	width: 100%;
 	max-width: 700px;
@@ -69,7 +74,7 @@ div.stream {
 div.stream-container {
 	position: relative;
 	width: 100%;
-	padding-top: 56.25%;  /* 16:9 aspect ratio*/
+	padding-top: 74%; 
 }
 
 div.stream-container > *:first-child {
@@ -79,16 +84,36 @@ div.stream-container > *:first-child {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	overflow: hidden;
+}
+
+div.stream-container video {
+	object-fit: cover;
+	width: 100%;
 }
 
 div.current-player {
 	margin-top: 0.4em;
+	padding: 5px 10px;
 	display: flex;
 	align-items: center;
 }
 
+div.current-player span.waittime {
+	color: rgb(211, 64, 64);
+}
+
 div.avatar {
+	width: 40px;
+	max-width: 40px;
+	overflow-x: hidden;
 	margin-right: 10px;
+}
+
+div.avatar > img {
+	display: block;
+	height: 20px;
+	max-height: 20px;
 }
 
 div.controls {
@@ -96,6 +121,10 @@ div.controls {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.disabled {
+	pointer-events: none;
 }
 
 button.key {
@@ -112,8 +141,9 @@ button.key {
 	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
 }
 
-button.key.disabled {
+.disabled button.key {
 	opacity: 0.6;
+	box-shadow: none;
 }
 
 button#keyG {
@@ -121,8 +151,16 @@ button#keyG {
 	height: 120px;
 }
 
+button#keyG:active,
 button#keyG:focus {
 	background: rgb(65, 64, 206);
+}
+
+button#keyG.played {
+	opacity: 1;
+	background: rgb(65, 64, 206);
+	box-shadow: 0px 4px 4px rgba(65, 64, 206, 0.4);
+	transition: all 0.3s linear;
 }
 
 button#keyA {
@@ -130,8 +168,16 @@ button#keyA {
 	height: 105px;
 }
 
+button#keyA:active,
 button#keyA:focus {
 	background: rgb(89, 191, 105);
+}
+
+button#keyA.played {
+	opacity: 1;
+	background: rgb(89, 191, 105);
+	box-shadow: 0px 4px 4px rgba(89, 191, 105, 0.4);
+	transition: all 0.3s linear;
 }
 
 button#keyD {
@@ -139,8 +185,16 @@ button#keyD {
 	height: 90px;
 }
 
+button#keyD:active,
 button#keyD:focus {
 	background: rgb(255, 219, 35);
+}
+
+button#keyD.played {
+	opacity: 1;
+	background: rgb(255, 219, 35);
+	box-shadow: 0px 4px 4px rgba(255, 219, 35, 0.4);
+	transition: all 0.3s ease-out;
 }
 
 button#keyF {
@@ -148,12 +202,21 @@ button#keyF {
 	height: 75px;
 }
 
+button#keyF:active,
 button#keyF:focus {
 	background: rgb(255, 142, 38);
 }
 
-button#queue {
+button#keyF.played {
+	opacity: 1;
+	background: rgb(255, 142, 38);
+	box-shadow: 0px 4px 4px rgba(255, 142, 38, 0.4);
+	transition: all 0.3s linear;
+}
+
+button#playXylophone {
 	display: block;
+	overflow: hidden;
 	width: 100%;
 	min-width: 250px;
 	max-width: 500px;
@@ -168,13 +231,62 @@ button#queue {
 	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
 }
 
-button#queue:focus {
+button#playXylophone:active,
+button#playXylophone:focus {
 	background: rgb(65, 64, 206);
+}
+
+
+button#quitPlaying {
+	display: block;
+	overflow: hidden;
+	height: 0px;
+	width: 100%;
+	min-width: 250px;
+	max-width: 500px;
+	margin: 0 auto;
+	background: rgb(211, 64, 64);
+	font-family: 'Quantico', sans-serif;
+	font-size: 1.2em;
+	color: rgb(255, 255, 255);
+	padding: 0;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
+}
+
+button#quitPlaying:active,
+button#quitPlaying:focus {
+	background: rgb(252, 42, 42);
 }
 
 p#waittime {
 	font-size: 0.8em;
 	text-align: center;
+}
+
+.close .queue-content {
+	height: 0px;
+	overflow: hidden;
+}
+
+.open .queue-content {
+	height: auto;
+	max-height: 600px;
+	overflow: scroll;
+}
+
+div#queue-button {
+	background-image: url('/img/button-right.svg');
+	background-repeat: no-repeat;
+	background-size: 15px 20px;
+	width: 15px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.open div#queue-button {
+	transform: rotate(90deg);
 }
 
 div.queue-header {
@@ -191,9 +303,9 @@ div.waiting-players {
 	font-size: 0.9em;
 }
 
-div.queue-list > ul {
+div.queue-content > ul {
 	display: block;
-	margin: 0 0 0 15px;
+	margin: 0;
 	padding: 0;
 	list-style: none;
 }
@@ -201,8 +313,13 @@ div.queue-list > ul {
 li.queued-user {
 	display: flex;
 	align-items: center;
-	padding: 10px;
+	padding: 5px 10px;
 	border-bottom: 1px solid rgb(200, 200, 200);
+	margin-left: 10px;
+}
+
+.self-user {
+	background: rgba(255, 219, 35, 0.3);
 }
 
 div.exhibition-container {
@@ -267,14 +384,186 @@ footer > ul > li {
 	padding-right: 30px;
 }
 
+div.modal {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 20;
+	padding: 30px;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	opacity: 0;
+	visibility: hidden;
+  	transition: visibility 0s linear 0.1s,opacity 0.3s ease;
+}
+
+div.modal.open {
+	visibility: visible;
+	opacity: 1;
+}
+
+div.modalOverlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 20;
+	background: rgba(0, 0, 0, 0.7);
+}
+
+div.modalContainer {
+	position: relative;
+	z-index: 22;
+	width: calc(100% - 2 * 2em);
+	max-width: 250px;
+	margin: 0 auto;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgb(255, 255, 255);
+	padding: 1em;
+	border-radius: 5px;
+}
+
+div.modalContainer > h3 {
+	margin: 0;
+	text-align: center;
+	color: rgb(67, 113, 74);
+}
+
+div.modalContainer > p {
+	font-size: 0.8em;
+}
+
+button.modalClose {
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	border-radius: 15px;
+	background: rgb(211, 64, 64);
+	color: rgb(255, 255, 255);
+	border: none;
+	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
+}
+
+button.modalClose:active,
+button.modalClose:focus {
+	background: rgb(252, 42, 42);
+}
+
+div.carouselContainer {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+div.carousel {
+	width: 150px;
+	max-width: 150px;
+	height: 60px;
+	overflow: hidden;
+}
+
+div.carouselContent {
+	position: relative;
+	width: 2000px;
+	height: 60px;
+}
+
+div.carouselSlide {
+	width: 150px;
+	max-width: 150px;
+	height: 60px;
+	text-align: center;
+	position: relative;
+	float: left;
+	transform: translateX(-150px);
+}
+
+div.carouselSlide > img {
+	height: 100%;
+	max-height: 100%;
+}
+
+.carouselRight {
+	background-image: url('/img/button-right.svg');
+	background-repeat: no-repeat;
+	background-size: 15px 25px;
+	width: 15px;
+	height: 25px;
+	cursor: pointer;
+}
+
+.carouselLeft {
+	background-image: url('/img/button-left.svg');
+	background-repeat: no-repeat;
+	background-size: 15px 25px;
+	width: 15px;
+	height: 25px;
+	cursor: pointer;
+}
+
+input.avatarInput {
+	width: 0;
+	height: 0;
+	visibility: hidden;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	font-family: 'Quantico', sans-serif;
+	font-weight: 700;
+}
+
+input[type=text] {
+	display: block;
+	font-family: 'Roboto Mono Sans', monospace;
+	font-size: 1.2em;
+	width: calc(100% - 20px);
+	border: 1px solid rgb(0, 0, 0);
+	padding: 5px 10px;
+	border-radius: 3px;
+}
+
+form > button {
+	display: block;
+	width: 100%;
+	margin: 20px 0 10px;
+	background: rgb(54, 53, 126);
+	font-family: 'Quantico', sans-serif;
+	font-size: 1em;
+	color: rgb(255, 255, 255);
+	padding: 8px 15px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0px 4px 4px rgb(120, 120, 120, 0.3);
+}
+
+form > button:active,
+form > button:focus {
+	background: rgb(65, 64, 206);
+}
+
+@media screen and (min-width: 450px) {
+	body {
+		font-size: 18px;
+	}
+}
+
 @media screen and (min-width: 700px) {
 	div.play {
 		display: flex;
 	}
 
 	div.stream {
-		width: 80%;
-		max-width: 75vw;
+		width: 70%;
+		max-width: 65vw;
 		margin-right: 15px;
 		display: flex;
 		align-items: center;
@@ -298,5 +587,40 @@ footer > ul > li {
 
 	button#keyF {
 		height: 55px;
+	}
+
+	div.modalContainer {
+		max-width: 400px;
+	}
+}
+
+@supports (display: grid) {
+	@media screen and (min-width: 700px) {
+		div.play {
+			display: grid;
+			grid-template-columns: 2fr minmax(200px, 1fr);
+			grid-template-rows: 1fr;
+		}
+
+		div.stream {
+			width: calc(100% - 1em);
+		}
+
+		div.queue-information {
+			min-height: 170px;
+		}
+
+		.open .queue-content {
+			max-height: 150px;
+			overflow: scroll;
+		}
+
+		button#quitPlaying {
+			min-width: 200px;
+		}
+
+		button#playXylophone {
+			min-width: 200px;
+		}
 	}
 }
