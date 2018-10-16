@@ -74,7 +74,7 @@ div.stream {
 div.stream-container {
 	position: relative;
 	width: 100%;
-	padding-top: 56.25%;  /* 16:9 aspect ratio*/
+	padding-top: 74%; 
 }
 
 div.stream-container > *:first-child {
@@ -84,6 +84,12 @@ div.stream-container > *:first-child {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	overflow: hidden;
+}
+
+div.stream-container video {
+	object-fit: cover;
+	width: 100%;
 }
 
 div.current-player {
@@ -556,8 +562,8 @@ form > button:focus {
 	}
 
 	div.stream {
-		width: 80%;
-		max-width: 75vw;
+		width: 70%;
+		max-width: 65vw;
 		margin-right: 15px;
 		display: flex;
 		align-items: center;
@@ -592,7 +598,7 @@ form > button:focus {
 	@media screen and (min-width: 700px) {
 		div.play {
 			display: grid;
-			grid-template-columns: 3fr minmax(200px, 1fr);
+			grid-template-columns: 2fr minmax(200px, 1fr);
 			grid-template-rows: 1fr;
 		}
 
