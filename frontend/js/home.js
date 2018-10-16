@@ -14,10 +14,13 @@ socket.onmessage = (message) => {
 };
 
 /* Connect to camera stream */
-const webRtcServer = new WebRtcStreamer('video', `${location.protocol}//${window.location.hostname}:8989`);
+// const STREAM_URL = `${location.protocol}//${window.location.hostname}:8989`;
+const STREAM_URL = 'http://192.168.1.234:8989';
+const CAMERA_NAME = 'USB2.0 Camera: USB2.0 Camera';
+const webRtcServer = new WebRtcStreamer('video', STREAM_URL);
 
 window.onload = function() {
-	webRtcServer.connect('', '', 'rtptransport=tcp&timeout=60');
+	webRtcServer.connect(CAMERA_NAME, '', 'rtptransport=tcp&timeout=60');
 };
 
 window.onbeforeunload = function() {
@@ -311,7 +314,7 @@ function createAvatar(container, eyes, mouth) {
 	var mouthEl = document.createElement('IMG');
 	mouthEl.src = mouthSource;
 	container.appendChild(eyesEl);
-	container.appendChild(mouthEl); 
+	container.appendChild(mouthEl);
 }
 
 function updateEstimatedWait(numQueuedPlayers) {
