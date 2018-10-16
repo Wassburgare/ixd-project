@@ -69,6 +69,12 @@ const joinQueue = (user, ws) => {
 };
 
 const leaveQueue = (ws) => {
+  const user = queue.getUserFromWs(ws);
+
+  if (isUserPlaying(user)) {
+    elapsedTime = timeSpan();
+  }
+
   queue.removeUser(ws);
 
   if (queue.size() <= 1 && isTimerStarted()) {
@@ -81,7 +87,7 @@ const leaveQueue = (ws) => {
 const informUsers = () => {
   const allUsers = queue.getAllUsers().map(user => removeUserUUID(user));
 
-  if (elapsedTime) {
+  if (allUsers[0] && elapsedTime) {
     allUsers[0].timeLeft = INTERVAL - elapsedTime.rounded();
   }
 
@@ -116,7 +122,6 @@ const stopTimer = () => {
 const isTimerStarted = () => timerId !== undefined;
 
 const setCurrentUser = () => {
-  elapsedTime = timeSpan();
   leaveQueue(queue.peekWs());
 };
 
