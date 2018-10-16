@@ -12,8 +12,6 @@ const PLAY_KEY = 'play_key';
 const KEY_PLAYED = 'key_played';
 const QUEUE_UPDATED = 'queue_updated';
 
-let elapsedTime;
-
 const server = new WebSocket.Server({
   port: PORT,
 }, () => {
@@ -21,6 +19,7 @@ const server = new WebSocket.Server({
 });
 
 let timerId;
+let startedPlaying = 0;
 
 server.on('connection', (ws) => {
   ws.on('message', (msg) => {
@@ -61,8 +60,14 @@ server.on('connection', (ws) => {
 const joinQueue = (user, ws) => {
   queue.addUser(user, ws);
 
-  if (queue.size() > 1 && !isTimerStarted()) {
+  if (queue.size() === 1) {
+    startedPlaying = new Date().getTime();
+  } else if (queue.size() > 1 && !isTimerStarted()) {
     startTimer();
+  }
+
+  if (queue.size() === 2 && getElapsedTime() > INTERVAL) {
+    setCurrentUser();
   }
 
   informUsers();
@@ -72,7 +77,7 @@ const leaveQueue = (ws) => {
   const user = queue.getUserFromWs(ws);
 
   if (isUserPlaying(user)) {
-    elapsedTime = timeSpan();
+    startedPlaying = new Date().getTime();
   }
 
   queue.removeUser(ws);
@@ -87,8 +92,8 @@ const leaveQueue = (ws) => {
 const informUsers = () => {
   const allUsers = queue.getAllUsers().map(user => removeUserUUID(user));
 
-  if (allUsers[0] && elapsedTime) {
-    allUsers[0].timeLeft = INTERVAL - elapsedTime.rounded();
+  if (allUsers.length > 1) {
+    allUsers[0].timeLeft = getTimeLeft();
   }
 
   server.clients.forEach((ws) => {
@@ -110,13 +115,11 @@ const playKey = (key) => {
 
 const startTimer = () => {
   timerId = setInterval(setCurrentUser, INTERVAL);
-  elapsedTime = timeSpan();
 };
 
 const stopTimer = () => {
   clearInterval(timerId);
   timerId = undefined;
-  elapsedTime = undefined;
 };
 
 const isTimerStarted = () => timerId !== undefined;
@@ -131,6 +134,10 @@ const removeUserUUID = (user) => {
 };
 
 const isUserPlaying = user => queue.compareUsers(user, queue.peekUser());
+
+const getElapsedTime = () => new Date().getTime() - startedPlaying;
+
+const getTimeLeft = () => INTERVAL - (getElapsedTime());
 
 const sendMessage = (ws, type, data) => {
   ws.send(JSON.stringify({
