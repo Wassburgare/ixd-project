@@ -202,9 +202,11 @@ function updateCurrentUserItem(user) {
 	} else {
 		/* No one left in the queue to play */
 		CURRENT_PLAYER_ID = "";
+		CURRENT_TIME_LEFT = null;
 		avatarEl.innerHTML = ':)';
 		headings[0].innerHTML = 'No one is currently playing';
 		headings[1].innerHTML = '---';
+		clearInterval(CURRENT_TIMER);
 	}
 }
 
