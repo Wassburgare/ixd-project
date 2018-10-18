@@ -15,7 +15,7 @@ socket.onmessage = (message) => {
 
 /* Connect to camera stream */
 // const STREAM_URL = `${location.protocol}//${window.location.hostname}:8989`;
-const STREAM_URL = 'http://192.168.1.234:8989';
+const STREAM_URL = '';
 const CAMERA_NAME = 'USB2.0 Camera: USB2.0 Camera';
 const webRtcServer = new WebRtcStreamer('video', STREAM_URL);
 
