@@ -309,8 +309,8 @@ function updateQueueContent(queuedPlayers) {
 
 function createAvatar(container, eyes, mouth) {
 	container.innerHTML = "";
-	const eyesSource = '/img/Eyes-' + eyes + '.svg';
-	const mouthSource = '/img/Mouth-' + mouth + '.svg';
+	const eyesSource = './img/Eyes-' + eyes + '.svg';
+	const mouthSource = './img/Mouth-' + mouth + '.svg';
 	var eyesEl = document.createElement('IMG');
 	eyesEl.src = eyesSource;
 	var mouthEl = document.createElement('IMG');
