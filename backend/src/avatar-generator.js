@@ -27,6 +27,8 @@ const EMPTY_QUEUE_TEXT = 'To start playing, connect to dprj18 network\nand enter
 
 const ws = new WebSocket('ws://localhost:8081');
 
+displayEmptyQueueImage();
+
 ws.on('message', (message) => {
   const parsedMessage = JSON.parse(message);
 
@@ -47,16 +49,7 @@ ws.on('message', (message) => {
           });
       });
   } else {
-    emptyQueueImage()
-      .then(image => extentImage(image))
-      .then(image => addText(image, EMPTY_QUEUE_TEXT, EMPTY_QUEUE_FONT_SIZE))
-      .then((image) => {
-        gm(image)
-          .write(AVATAR_LOCATION, (err) => {
-            if (err) console.log(err);
-            displayImage();
-          });
-      });
+    displayEmptyQueue();
   }
 });
 
@@ -114,9 +107,22 @@ const emptyQueueImage = () => new Promise((resolve, reject) => {
     });
 });
 
+const displayEmptyQueueImage = () => {
+  emptyQueueImage()
+    .then(image => extentImage(image))
+    .then(image => addText(image, EMPTY_QUEUE_TEXT, EMPTY_QUEUE_FONT_SIZE))
+    .then((image) => {
+      gm(image)
+        .write(AVATAR_LOCATION, (err) => {
+          if (err) console.log(err);
+          displayImage();
+        });
+    });
+};
+
 const displayImage = () => {
-  // exec(`fbi -T 1 -d ${FRAMEBUFFER_DEVICE} --noverbose -a ${AVATAR_LOCATION}`, (err, stdout) => {
-  //   if (err) console.log(err);
-  //   if (stdout) console.log(stdout);
-  // });
+  exec(`fbi -T 1 -d ${FRAMEBUFFER_DEVICE} --noverbose -a ${AVATAR_LOCATION}`, (err, stdout) => {
+    if (err) console.log(err);
+    if (stdout) console.log(stdout);
+  });
 };
