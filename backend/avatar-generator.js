@@ -5,7 +5,7 @@ const WebSocket = require('ws');
 
 const FRAMEBUFFER_DEVICE = '/dev/fb0';
 
-const IMG_DIR = path.resolve(__dirname, '..', '..', 'frontend', 'img');
+const IMG_DIR = path.resolve(__dirname, '..', 'frontend', 'img');
 
 const AVATAR_LOCATION = path.resolve(__dirname, 'avatar.png');
 
