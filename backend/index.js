@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const timeSpan = require('time-span');
 const queue = require('./src/queue');
 const thinger = require('./src/thinger');
 
