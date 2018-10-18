@@ -27,8 +27,6 @@ const EMPTY_QUEUE_TEXT = 'To start playing, connect to dprj18 network\nand enter
 
 const ws = new WebSocket('ws://localhost:8081');
 
-displayEmptyQueueImage();
-
 ws.on('message', (message) => {
   const parsedMessage = JSON.parse(message);
 
@@ -49,7 +47,7 @@ ws.on('message', (message) => {
           });
       });
   } else {
-    displayEmptyQueue();
+    displayEmptyQueueImage();
   }
 });
 
@@ -126,3 +124,5 @@ const displayImage = () => {
     if (stdout) console.log(stdout);
   });
 };
+
+displayEmptyQueueImage();
