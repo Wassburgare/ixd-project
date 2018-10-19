@@ -37,6 +37,8 @@ $ sudo systemctl restart mongodb
 **Password:** abc123  
 
 Connect via SSH:
-> $ ssh pi@{ip_address}
+```
+$ ssh pi@{ip_address}
+```
 
 Web page is located at `/var/www/html/`. Config files for web server are located at `/etc/nginx/` (e.g. `/etc/nginx/sites-available/default` to config default web page). 
