@@ -1,0 +1,251 @@
+html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto Mono Sans', monospace;
+	font-size: 14px;
+	color: rgb(34, 34, 34);
+	background: black;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+h1, h2, h3, h6 {
+	font-family: 'Quantico', sans-serif;
+	font-weight: 700;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+h2 {
+	font-size: 2.4em;
+	line-height: 1.1;
+	color: rgb(67, 113, 74);
+	margin: 0.4em 0;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+h6 {
+	font-size: 0.9em;
+	margin: 0;
+}
+
+header {
+	width: 100%;
+	padding: 0.4em 1em 1em;
+	position: fixed;
+	top: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 2;
+}
+
+header a,
+header a:active,
+header a:visited {
+	font-family: 'Quantico', sans-serif;
+	color: rgb(255, 255, 255);
+}
+
+header a:focus,
+header a:hover {
+	color: rgb(65, 64, 206);
+}
+
+header > h1 {
+	color: rgb(255, 255, 255);
+	font-size: 2.4em;
+	margin: 0;
+}
+
+header > ul {
+	list-style: none;
+	padding: 0;
+	margin: 0 2em 0 0;
+}
+
+header > ul > li {
+	display: inline-block;
+}
+
+main {
+/*	width: calc(100% - 2 * 1em);
+	max-width: 1024px;
+	margin: 0 auto 2em;
+	background: white;
+	padding: 1em;*/
+	flex: 1;
+}
+
+main > section:first-child > h2 {
+	margin-top: 0;
+}
+
+main section {
+	width: calc(100% - 2em);
+	padding: 1em;
+}
+
+/* Introduction */
+main > article > section:nth-child(1) {
+	background-color: rgb(237, 194, 217); /* pink */
+	min-height: calc(100vh - 5em);
+	max-height: calc(100vh - 5em);
+	padding: 4em 1em 1em;
+	position: relative;
+}
+
+/* Background */
+main > article > section:nth-child(2) {
+	background-color: rgb(174, 174, 217);
+}
+
+/* Exhibition */
+main > article > section:nth-child(3) {
+	background-color: rgb(166, 199, 171);
+}
+
+/* Credits */
+main > article > section:nth-child(4) {
+	background-color: rgb(237, 194, 217);
+}
+
+.cover {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+.cover > img {
+	width: 100%;
+}
+
+.cover::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgb(237, 194, 217);
+	opacity: 0.5;
+}
+
+.intro-text {
+	width: 100%;
+	max-width: 700px;
+	margin: 0 auto;
+	transform: translateY(50%);
+	color: rgb(255, 255, 255);
+	text-align: center;
+}
+
+.text-pic {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-bottom: 2em;
+}
+
+.text-pic > img {
+	width: 100%;
+}
+
+.exhibit-parts {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	text-align: center;
+}
+
+.exhibit-parts > div > img {
+	width: 90%;
+}
+
+.exhibit-parts > div > p {
+	width: 75%;
+	margin: 0 auto 1.4em;
+}
+
+.group-members {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	margin-bottom: 1em;
+}
+
+.group-members > div {
+	width: 185px;
+	text-align: center;
+}
+
+.group-members > div img {
+	width: 90%;
+}
+
+.institutions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.institutions > img {
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+@media screen and (min-width: 450px) {
+	body {
+		font-size: 18px;
+	}
+}
+
+@media screen and (min-width: 700px) {
+	.text-pic {
+		flex-wrap: nowrap;
+	}
+
+	.text-pic > p {
+		padding-right: 1em;
+	}
+
+	.text-pic > img {
+		max-width: calc(100% / 3);
+	}
+
+	.exhibit-parts > div {
+		width: 50%;
+	}
+
+	.group-members > div {
+		width: calc(100% / 6);
+	}
+
+	.institutions {
+		flex-wrap: nowrap;
+		justify-content: center;
+	}
+
+	.institutions > img {
+		width: 48%;
+		max-width: 400px;
+		margin: 0 1em;
+		flex-shrink: 1;
+	}
+}
