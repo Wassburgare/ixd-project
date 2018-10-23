@@ -37,6 +37,7 @@ int previous = LOW;    // the previous reading from the input pin
 // will quickly become a bigger number than can be stored in an int.
 long thetime = 0;         // the last time the output pin was toggled
 long debounce = 150;   // the debounce time, increase if the output flickers
+int brushState = 0; 
 
 void setup()
 {
@@ -79,7 +80,16 @@ void sendMessage() {
   pson data;
 
   //message is hej, can be changed, "instrument" is the reciever.
-  data["message"] = "drum1";
+
+  String message = "drum1"; 
+  if (brushState == 1){
+    message = message+"Up";
+  } else {
+    message  = message+"Down";
+  }
+  
+  data["message"] = message;
+  Serial.println("Sending Message: "+message);
   thing.call_device("controller", "receive" , data);
   //thing.stream(thing["send"]);
 }
@@ -119,15 +129,16 @@ void loop()
 
     // Now invert the output on the pin13 LED
     if (switchstate == HIGH) {
-
+      brushState = 1; 
       LEDstate = LOW;
       Serial.println("LOW");
       sendMessage(); //Send message
-      Serial.println("Message was sent");
     }
     else {
+      brushState = 0; 
       LEDstate = HIGH;
-      Serial.println("HIGH");
+      //Serial.println("HIGH");
+      sendMessage(); //Send message
     }
   }
   digitalWrite(LED_BUILTIN, LEDstate);
