@@ -31,23 +31,24 @@ ws.on('message', (message) => {
   const parsedMessage = JSON.parse(message);
 
   if (parsedMessage
-    && parsedMessage.type === 'queue_updated'
-    && parsedMessage.data.length > 0) {
-    const { eyes, mouth, nickname } = parsedMessage.data[0];
+    && parsedMessage.type === 'queue_updated') {
+    if (parsedMessage.data.length > 0) {
+      const { eyes, mouth, nickname } = parsedMessage.data[0];
 
-    mergeAvatar(`${IMG_DIR}/Eyes-${eyes}.svg`, `${IMG_DIR}/Mouth-${mouth}.svg`)
-      .then(avatar => cropAvatar(avatar))
-      .then(avatar => extentImage(avatar))
-      .then(avatar => addText(avatar, nickname, USERNAME_FONT_SIZE))
-      .then((avatar) => {
-        gm(avatar)
-          .write(AVATAR_LOCATION, (err) => {
-            if (err) console.log(err);
-            displayImage();
-          });
-      });
-  } else {
-    displayEmptyQueueImage();
+      mergeAvatar(`${IMG_DIR}/Eyes-${eyes}.svg`, `${IMG_DIR}/Mouth-${mouth}.svg`)
+        .then(avatar => cropAvatar(avatar))
+        .then(avatar => extentImage(avatar))
+        .then(avatar => addText(avatar, nickname, USERNAME_FONT_SIZE))
+        .then((avatar) => {
+          gm(avatar)
+            .write(AVATAR_LOCATION, (err) => {
+              if (err) console.log(err);
+              displayImage();
+            });
+        });
+    } else {
+      displayEmptyQueueImage();
+    }
   }
 });
 
