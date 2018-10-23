@@ -11,8 +11,8 @@
 
 //Login for Thinger server
 #define USER_ID             "Kloutschek"
-#define DEVICE_ID           "drumstick1:OwZ6zPDxVhrq  "
-#define DEVICE_CREDENTIAL   "hejsan"
+#define DEVICE_ID           "drumstick1"
+#define DEVICE_CREDENTIAL   "OwZ6zPDxVhrq"
 
 const char *ssid = "dprj18";
 const char *password = "Dprj18iot";
@@ -80,7 +80,7 @@ void sendMessage() {
 
   //message is hej, can be changed, "instrument" is the reciever.
   data["message"] = "drum1";
-  thing.call_device("instrument", "receive" , data);
+  thing.call_device("controller", "receive" , data);
   //thing.stream(thing["send"]);
 }
 
