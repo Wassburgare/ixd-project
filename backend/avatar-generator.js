@@ -3,27 +3,27 @@ const { exec } = require('child_process');
 const gm = require('gm');
 const WebSocket = require('ws');
 
-const FRAMEBUFFER_DEVICE = '/dev/fb0';
+const FRAMEBUFFER_DEVICE = '/dev/fb1';
 
 const IMG_DIR = path.resolve(__dirname, '..', 'frontend', 'img');
 
 const AVATAR_LOCATION = path.resolve(__dirname, 'avatar.png');
 
-const SCREEN_WIDTH = 1920;
-const SCREEN_HEIGHT = 1080;
+const SCREEN_WIDTH = 320;
+const SCREEN_HEIGHT = 240;
 
 const AVATAR_SHAVE = 0.15;
 const AVATAR_SCALE = 0.8;
-const EMPTY_QUEUE_SCALE = 2;
+const EMPTY_QUEUE_SCALE = 0.4;
 
 const IMAGE_CENTER_OFFSET = SCREEN_HEIGHT * 0.1;
 
-const USERNAME_FONT_SIZE = SCREEN_HEIGHT * 0.15;
-const EMPTY_QUEUE_FONT_SIZE = SCREEN_HEIGHT * 0.08;
+const USERNAME_FONT_SIZE = SCREEN_HEIGHT * 0.17;
+const EMPTY_QUEUE_FONT_SIZE = SCREEN_HEIGHT * 0.09;
 const TEXT_CENTER_OFFSET = SCREEN_HEIGHT * 0.34;
 
 // TODO: Set this to some better text
-const EMPTY_QUEUE_TEXT = 'To start playing, connect to dprj18 network\nand enter 192.168.1.234 in the browser!';
+const EMPTY_QUEUE_TEXT = 'To start playing, enter\n192.168.1.234 in the browser!';
 
 const ws = new WebSocket('ws://localhost:8081');
 
