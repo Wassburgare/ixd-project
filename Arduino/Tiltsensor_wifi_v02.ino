@@ -11,8 +11,8 @@
 
 //Login for Thinger server
 #define USER_ID             "Kloutschek"
-#define DEVICE_ID           "drumstick1"
-#define DEVICE_CREDENTIAL   "OwZ6zPDxVhrq"
+#define DEVICE_ID           "drumstick2"
+#define DEVICE_CREDENTIAL   "qWbsGW&LkHEu"
 
 const char *ssid = "dprj18";
 const char *password = "Dprj18iot";
@@ -79,7 +79,7 @@ void sendMessage() {
 
   //message is hej, can be changed, "instrument" is the reciever.
 
-  String message = "drum1"; 
+  String message = "drum2"; 
   if (brushState == 1){
     message = message+"Up";
   } else {

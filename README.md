@@ -10,8 +10,9 @@
 
 If Thinger.io gives the "internal server error" message when trying to sign in, it's most likely because the Pi was shutdown incorrectly, and Mongodb doesn't appreciate that.
 
-To fix, run a repair:
+To fix, clear data directory and run a repair:
 ```
+$ rm data/*
 $ sudo mongod --dbpath data/ --repair
 ```
 
