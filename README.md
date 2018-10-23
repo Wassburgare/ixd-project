@@ -43,3 +43,24 @@ $ ssh pi@{ip_address}
 ```
 
 Web page is located at `/var/www/html/`. Config files for web server are located at `/etc/nginx/` (e.g. `/etc/nginx/sites-available/default` to config default web page). 
+
+### PM2
+
+The backend server, camera stream, and avatar generator are managed by the process manager PM2. PM2 will make sure the services are always running, even after boot and on potential crashes.
+
+To restart the backend server or camera stream, use one of the following commands:
+```
+$ pm2 restart backend
+$ pm2 restart camera
+```
+
+The avatar generator requires root access to run, so it's restarted with `sudo`:
+```
+$ sudo pm2 restart avatar
+```
+
+If needed, you can check the status of the processes with:
+```
+$ pm2 list
+$ sudo pm2 list
+```
