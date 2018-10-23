@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 const gm = require('gm');
 const WebSocket = require('ws');
 
-const FRAMEBUFFER_DEVICE = '/dev/fb0';
+const FRAMEBUFFER_DEVICE = '/dev/fb1';
 
 const IMG_DIR = path.resolve(__dirname, '..', 'frontend', 'img');
 
@@ -18,7 +18,7 @@ const EMPTY_QUEUE_SCALE = 0.4;
 
 const IMAGE_CENTER_OFFSET = SCREEN_HEIGHT * 0.1;
 
-const USERNAME_FONT_SIZE = SCREEN_HEIGHT * 0.15;
+const USERNAME_FONT_SIZE = SCREEN_HEIGHT * 0.17;
 const EMPTY_QUEUE_FONT_SIZE = SCREEN_HEIGHT * 0.09;
 const TEXT_CENTER_OFFSET = SCREEN_HEIGHT * 0.34;
 
