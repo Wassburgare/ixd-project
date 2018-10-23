@@ -12,7 +12,7 @@
 //Login for Thinger server
 #define USER_ID             "Kloutschek"
 #define DEVICE_ID           "flexSensor" //FIXA! 
-#define DEVICE_CREDENTIAL   "!VwUoOsfblVi"
+#define DEVICE_CREDENTIAL   "hmtRd&O&okzx"
 
 const char *ssid = "dprj18";
 const char *password = "Dprj18iot";
@@ -53,11 +53,12 @@ void setup() {
 
 
 //Function to send message to another device
-void sendMessage() {
+void sendMessage(int servoposition) {
   pson data;
 
   //message is hej, can be changed, "instrument" is the reciever.
-  data["message"] = "Flex";
+  data["message"] = "guitar";
+  data["guitarData"] = servoposition;
   thing.call_device("controller", "receive" , data);
   //thing.stream(thing["send"]);
 }
@@ -68,29 +69,14 @@ void loop() {
 
   
   int flexposition;    // Input value from the analog pin.
-  int servoposition;   // Output value to the servo.
+  //int servoposition;   // Output value to the servo.
 
   flexposition = analogRead(flexpin);
 
-  if (flexposition > 1000) {
-     curState = 1; 
-  }
-  else {
-     curState = 0;
-  }
+  sendMessage(flexposition);
 
-  if (curState != prevState){
-    prevState = curState; 
-    if (curState == 1){
-       digitalWrite(LED_BUILTIN,LOW);
-       sendMessage(); //Send message
-    } else {
-       digitalWrite(LED_BUILTIN,HIGH);
-    }
-  }
   //servoposition = map(flexposition, 3, 400, 0, 180);
   //servoposition = constrain(servoposition, 0, 180);
-
 
   //servo1.write(servoposition);
   
@@ -100,6 +86,6 @@ void loop() {
   //Serial.println(servoposition);
 
 
-  delay(20);  // wait 20ms between servo updates
+  delay(50);  // wait 20ms between servo updates
 
 }
