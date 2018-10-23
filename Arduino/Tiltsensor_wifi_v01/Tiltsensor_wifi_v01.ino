@@ -36,21 +36,19 @@ int previous = LOW;    // the previous reading from the input pin
 // the following variables are long because the time, measured in miliseconds,
 // will quickly become a bigger number than can be stored in an int.
 long thetime = 0;         // the last time the output pin was toggled
-long debounce = 150;   // the debounce time, increase if the output flickers
-int brushState = 0; 
+long debounce = 50;   // the debounce time, increase if the output flickers. Original 150
+int brushState = -1;     // Keeps track on the state of the brush
 
 void setup()
 {
   Serial.begin(115200);
-
+  
   //Setting up the tilt sensor
   Serial.println("Setting up tilt sensor");
   pinMode(inPin, INPUT);
   digitalWrite(inPin, HIGH);   // turn on the built in pull-up resistor
   //pinMode(outPin, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
-  //Serial.begin(9600);
-
 
   //Setting up Wifi
   delay(1000);
@@ -98,7 +96,7 @@ void loop()
 {
 
   //Fixes the thinger things
-  thing.handle();
+  //thing.handle();
 
   /*
     digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
@@ -118,29 +116,34 @@ void loop()
     // reset the debouncing timer
     thetime = millis();
   }
-
-  if ((millis() - thetime) > debounce) {
+  
+  if((millis() - thetime) > debounce) {
     // whatever the switch is at, its been there for a long time
     // so lets settle on it!
     switchstate = reading;
-    Serial.print("Switchstate = ");
-    Serial.println(switchstate);
-
-
-    // Now invert the output on the pin13 LED
-    if (switchstate == HIGH) {
-      brushState = 1; 
-      LEDstate = LOW;
-      Serial.println("LOW");
-      sendMessage(); //Send message
+    
+    if(switchstate != brushState){
+      Serial.print("Switchstate = ");
+      Serial.print(switchstate);
+      Serial.print(" and brushState: ");
+      Serial.println(brushState);
+      // Now invert the output on the pin13 LED
+      if (switchstate == HIGH) {
+        brushState = 1; 
+        LEDstate = LOW;
+        Serial.println("LOW");
+        sendMessage(); //Send message
+      }
+      else {
+        brushState = 0; 
+        LEDstate = HIGH;
+        //Serial.println("HIGH");
+        sendMessage(); //Send message
+      }
     }
-    else {
-      brushState = 0; 
-      LEDstate = HIGH;
-      //Serial.println("HIGH");
-      sendMessage(); //Send message
-    }
+    //prevSwitch = switchState; 
   }
+  
   digitalWrite(LED_BUILTIN, LEDstate);
 
   // Save the last reading so we keep a running tally
