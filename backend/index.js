@@ -17,7 +17,8 @@ const server = new WebSocket.Server({
   console.log(`Server started on port ${PORT}`);
 });
 
-let timerId;
+let intervalId;
+let timeoutId;
 let startedPlaying = 0;
 
 server.on('connection', (ws) => {
@@ -61,12 +62,10 @@ const joinQueue = (user, ws) => {
 
   if (queue.size() === 1) {
     startedPlaying = new Date().getTime();
-  } else if (queue.size() > 1 && !isTimerStarted()) {
-    startTimer();
-  }
-
-  if (queue.size() === 2 && getElapsedTime() > INTERVAL) {
+  } else if (queue.size() === 2 && getTimeLeft() <= 0) {
     setCurrentUser();
+  } else if (queue.size() >= 2 && !isTimerStarted()) {
+    timeoutId = setTimeout(startTimer, getTimeLeft());
   }
 
   informUsers();
@@ -113,18 +112,24 @@ const playKey = (key) => {
 };
 
 const startTimer = () => {
-  timerId = setInterval(setCurrentUser, INTERVAL);
+  clearTimeout(timeoutId);
+  timeoutId = undefined;
+
+  setCurrentUser();
+  intervalId = setInterval(setCurrentUser, INTERVAL);
 };
 
 const stopTimer = () => {
-  clearInterval(timerId);
-  timerId = undefined;
+  clearInterval(intervalId);
+  intervalId = undefined;
 };
 
-const isTimerStarted = () => timerId !== undefined;
+const isTimerStarted = () => intervalId !== undefined || timeoutId !== undefined;
 
 const setCurrentUser = () => {
-  leaveQueue(queue.peekWs());
+  if (getTimeLeft() <= 0) {
+    leaveQueue(queue.peekWs());
+  }
 };
 
 const removeUserUUID = (user) => {
