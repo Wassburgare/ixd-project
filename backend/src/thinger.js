@@ -12,7 +12,9 @@ const play = (note) => {
       Authorization: `Bearer ${BEARER_TOKEN}`,
     },
     body: JSON.stringify({
-      message: `xylo${note}`,
+      in: {
+        message: `xylo${note}`,
+      },
     }),
   });
 };
