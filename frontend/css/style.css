@@ -74,7 +74,7 @@ div.stream {
 div.stream-container {
 	position: relative;
 	width: 100%;
-	padding-top: 74%; 
+	padding-top: 74%;
 }
 
 div.stream-container > *:first-child {
@@ -277,7 +277,7 @@ p#waittime {
 }
 
 div#queue-button {
-	background-image: url('./img/button-right.svg');
+	background-image: url('../img/button-right.svg');
 	background-repeat: no-repeat;
 	background-size: 15px 20px;
 	width: 15px;
@@ -492,7 +492,7 @@ div.carouselSlide > img {
 }
 
 .carouselRight {
-	background-image: url('./img/button-right.svg');
+	background-image: url('../img/button-right.svg');
 	background-repeat: no-repeat;
 	background-size: 15px 25px;
 	width: 15px;
@@ -501,7 +501,7 @@ div.carouselSlide > img {
 }
 
 .carouselLeft {
-	background-image: url('./img/button-left.svg');
+	background-image: url('../img/button-left.svg');
 	background-repeat: no-repeat;
 	background-size: 15px 25px;
 	width: 15px;
