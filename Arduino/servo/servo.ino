@@ -56,17 +56,17 @@ typedef struct{
   boolean messageReceived;
   int servoMin;
   int servoMax;
-  int servoDelay;
-  int instrumentTimer;
+  unsigned long servoDelay;
+  unsigned long instrumentTimer;
   int servoPort;
 }instrument;
 
 instrument instruments[7] = {
   {"drum1Down", false, false, false,450,500,100,0,11},
   {"drum2Down", false, false, false,500,650,150,0,10},
-  {"xylo1", false, false, false,225,300,150,0,4},
-  {"xylo2", false, false, false,400,440,150,0,5},
-  {"xylo3", false, false, false,240,200,150,0,6},
+  {"xylo3", false, false, false,300,225,150,0,4},
+  {"xylo1", false, false, false,400,440,150,0,5},
+  {"xylo2", false, false, false,240,200,150,0,6},
   {"xylo4", false, false, false,475,520,150,0,7},
   {"guitar", false, false, false,150,300,200,0,15},
 };
@@ -144,6 +144,8 @@ void setup() {
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
 
   delay(10);
+
+  resetServos();
 }
 
 //Function to read the received messages, probably needs the delays removed 
@@ -152,6 +154,13 @@ void setupReceive(){
     
     String message = in["message"];
     //Serial.println(message);
+    /*if(message == "drum1Up"){
+      message = "drum1Down";
+    }*/
+
+    /*if(message == "drum2Up"){
+      message = "drum2Down";
+    }*/
 
     if(message == "guitar"){
       int value = in["guitarData"];
@@ -160,6 +169,7 @@ void setupReceive(){
       //Serial.println("Value was :");
       //Serial.println(guitarValue);
     }else{
+      Serial.println(message);
       for(int i = 0; i < arraylength; i++){
         if(message == instruments[i].instrumentName){
            if(!instruments[i].messageReceived){
@@ -172,11 +182,11 @@ void setupReceive(){
 }
 
 
-/*void resetServos(){
+void resetServos(){
   for(int i = 0; i < (arraylength+1); i++){
-    pwm.setPWM(instruments[i].servoPort,0,300);
+    pwm.setPWM(instruments[i].servoPort,0,instruments[i].servoMin);
   }
-}*/
+}
 
 void runServos(){  
   //Setting the value for the guitar
@@ -185,23 +195,24 @@ void runServos(){
   for(int i = 0; i < arraylength; i++){
     if(!instruments[i].instrumentActive && instruments[i].messageReceived){
       //Serial.println(instruments[i].instrumentName + " Motor start");
-
-      
       //Inte aktiv, fått meddelande, starta motor och timer
+        
       pwm.setPWM(instruments[i].servoPort, 0, instruments[i].servoMax);
       instruments[i].instrumentActive = true;
       instruments[i].instrumentTimer = millis() + instruments[i].servoDelay;
       
     }else if(instruments[i].instrumentActive && (millis() > instruments[i].instrumentTimer) && !instruments[i].goingBackwards){
-      //Serial.println(instruments[i].instrumentName + " Motor off");
+      //Serial.println(instruments[i].instrumentName + " Motor backwards");
       
       pwm.setPWM(instruments[i].servoPort, 0, instruments[i].servoMin);
+      
       instruments[i].instrumentTimer = millis() + instruments[i].servoDelay;
       instruments[i].goingBackwards = true;
     }else if(instruments[i].goingBackwards && (millis() > instruments[i].instrumentTimer)){
       //Wait until reset
       instruments[i].instrumentActive = false;
       instruments[i].goingBackwards = false;
+      instruments[i].messageReceived = false;
     }
   }
 }
@@ -211,5 +222,4 @@ void runServos(){
 void loop() {
   thing.handle();
   runServos();
-  
 }
