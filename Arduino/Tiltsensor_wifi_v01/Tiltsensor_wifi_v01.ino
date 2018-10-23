@@ -96,7 +96,7 @@ void loop()
 {
 
   //Fixes the thinger things
-  //thing.handle();
+  thing.handle();
 
   /*
     digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
