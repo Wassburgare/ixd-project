@@ -42,6 +42,12 @@ Connect via SSH:
 $ ssh pi@{ip_address}
 ```
 
+The Raspberry Pi has to be rebooted or shutdown safetely (in this case primarily to avoid messing up Mongodb). This is done with the following commands:
+```
+$ sudo reboot
+$ sudo shutdown -h now
+```
+
 Web page is located at `/var/www/html/`. Config files for web server are located at `/etc/nginx/` (e.g. `/etc/nginx/sites-available/default` to config default web page). 
 
 ### PM2
