@@ -107,9 +107,10 @@ for (var i = 0; i < carouselRights.length; i++) {
 
 const keys = document.getElementsByClassName('key');
 for (var i = 0; i < keys.length; i++) {
-	const key = keys[i];
+	const index = i;
+	const key = keys[index];
 	key.addEventListener('click', () => {
-		playKey(key.id);
+		playKey(index + 1);
 	});
 }
 
