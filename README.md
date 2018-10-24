@@ -1,6 +1,7 @@
 ## Thinger.io
 
 **Local server:** `http://{ip_address}/thinger`  
+**Current local address:** `http://192.168.1.234/thinger`  
 **Online server:** [`https://ostkakan.cer.sgsnet.se`](https://ostkakan.cer.sgsnet.se) 
 
 **Username:** Kloutschek  
