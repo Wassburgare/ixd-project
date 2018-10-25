@@ -33,6 +33,11 @@ Finally, restart the Mongodb service:
 $ sudo systemctl restart mongodb
 ```
 
+Or, if you are boring, you can run a script running all of the above commands:
+```
+$ sudo ./ixd-project/mongodb.sh
+```
+
 ## Raspberry Pi
 
 **Username:** pi  
