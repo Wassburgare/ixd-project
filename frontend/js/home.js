@@ -337,7 +337,22 @@ function updateKeyPlayed(key) {
 		return;
 	}
 
-	var keyPlayed = document.getElementById(key);
+	var played = null;
+	switch (key) {
+		case 1:
+			played = 'keyG';
+			break;
+		case 2:
+			played = 'keyA';
+			break;
+		case 3:
+			played = 'keyD';
+			break;
+		case 4:
+			played = 'keyF';
+			break;
+	}
+	var keyPlayed = document.getElementById(played);
 	keyPlayed.classList.add('played');
 	setTimeout(function () {
 		keyPlayed.classList.remove('played');
