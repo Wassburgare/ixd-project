@@ -17,10 +17,11 @@ socket.onmessage = (message) => {
 // const STREAM_URL = `${location.protocol}//${window.location.hostname}:8989`;
 const STREAM_URL = '';
 const CAMERA_NAME = 'USB2.0 Camera: USB2.0 Camera';
+const MIC_NAME = 'USB2.0 Camera, USB Audio-Default Audio Device';
 const webRtcServer = new WebRtcStreamer('video', STREAM_URL);
 
 window.onload = function() {
-	webRtcServer.connect(CAMERA_NAME, '', 'rtptransport=tcp&timeout=60');
+	webRtcServer.connect(CAMERA_NAME, MIC_NAME, 'rtptransport=udp&timeout=60');
 };
 
 window.onbeforeunload = function() {
