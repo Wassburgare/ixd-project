@@ -64,7 +64,7 @@ typedef struct{
 instrument instruments[7] = {
   {"drum1Down", false, false, false,450,500,100,0,11},
   {"drum2Down", false, false, false,550,450,150,0,10},
-  {"xylo3", false, false, false,275,215,150,0,4},
+  {"xylo3", false, false, false,275,220,150,0,4},
   {"xylo1", false, false, false,400,440,150,0,5},
   {"xylo2", false, false, false,240,200,150,0,6},
   {"xylo4", false, false, false,475,520,150,0,7},
