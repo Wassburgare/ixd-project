@@ -14,10 +14,10 @@
     <header>
       <h1>ROBO POP!</h1>
       <ul>
-        <li><a href="#introduction">Introduction</a></li>
-        <li><a href="#background">Background</a></li>
-        <li><a href="#exhibit">Exhibit</a></li>
-        <li><a href="#credits">Credits</a></li>
+        <li><a href="#introduction" class="menu-item">Introduction</a></li>
+        <li><a href="#background" class="menu-item">Background</a></li>
+        <li><a href="#exhibit" class="menu-item">Exhibit</a></li>
+        <li><a href="#credits" class="menu-item">Credits</a></li>
       </ul>
     </header>
     <main>
@@ -123,15 +123,65 @@
     <script type="text/javascript">
       window.addEventListener('scroll', updateHeader);
 
+      const menuItems = document.getElementsByClassName('menu-item');
+      for (var i = 0; i < menuItems.length; i++) {
+        const item = menuItems[i];
+        item.addEventListener('click', function (event) {
+          const itemLocation = item.href;
+          return scrollToItem(itemLocation, event);
+        });
+      }
+
       function updateHeader() {
         var html = document.getElementsByTagName('html')[0];
         var header = document.getElementsByTagName('header')[0];
-        if (html.scrollTop >= 100) {
+        if (html.scrollTop >= 100 || document.documentElement.scrollTop >= 100 || document.scrollingElement.scrollTop >= 100 ) {
           header.classList.add('scrolled');
         } else {
           header.classList.remove('scrolled');
         }
       }
+
+      function scrollToItem(itemHref, event) {
+        event.preventDefault();
+        const docMax = document.documentElement.scrollHeight - window.innerHeight;
+        const ind = itemHref.indexOf('#');
+        const itemId = itemHref.substring(ind+1);
+        const menuItem = document.getElementById(itemId);
+        var scrollPosition = menuItem.offsetTop;
+        if (scrollPosition !== 0 && scrollPosition < docMax) {
+          scrollPosition -= 60;
+        }
+        animatedScrollTo(document.documentElement, scrollPosition, 700);
+        // Safari
+        animatedScrollTo(document.scrollingElement, scrollPosition, 700);
+        return false;
+      }
+
+
+      function animatedScrollTo(element, to, duration) {
+          var start = element.scrollTop,
+              change = to - start,
+              currentTime = 0,
+              increment = 20;
+              
+          var animateScroll = function(){        
+              currentTime += increment;
+              var val = Math.easeInOutQuad(currentTime, start, change, duration);
+              element.scrollTop = val;
+              if(currentTime < duration) {
+                  setTimeout(animateScroll, increment);
+              }
+          };
+          animateScroll();
+      }
+
+      Math.easeInOutQuad = function (t, b, c, d) {
+        t /= d/2;
+        if (t < 1) return c/2*t*t + b;
+        t--;
+        return -c/2 * (t*(t-2) - 1) + b;
+      };
     </script>
   </body>
 </html>
