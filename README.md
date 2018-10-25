@@ -13,7 +13,7 @@ If Thinger.io gives the "internal server error" message when trying to sign in, 
 
 To fix, clear data directory and run a repair:
 ```
-$ rm data/*
+$ rm -f data/*
 $ sudo mongod --dbpath data/ --repair
 ```
 
@@ -35,7 +35,7 @@ $ sudo systemctl restart mongodb
 
 Or, if you are boring, you can run a script running all of the above commands:
 ```
-$ sudo ./ixd-project/mongodb.sh
+$ sudo ./ixd-project/backend/mongodb.sh
 ```
 
 ## Raspberry Pi
