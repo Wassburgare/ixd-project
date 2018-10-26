@@ -194,19 +194,19 @@ function updateCurrentUserItem(user) {
 			CURRENT_TIME_LEFT = user.timeLeft;
 			clearInterval(CURRENT_TIMER);
 		}
-		headings[1].innerHTML = '<span class="waittime">' + timeToLabel(CURRENT_TIME_LEFT) + '</span> until turn runs out';
+		headings[1].innerHTML = '<span class="waittime">' + timeToLabel(CURRENT_TIME_LEFT) + '</span> till turen är slut';
 		if (user.id === CURRENT_USER.id) {
 			currentPlayerEl.classList.add('self-user');
-			headings[0].innerHTML = 'You are currently playing'
+			headings[0].innerHTML = 'Du spelar just nu'
 		} else {
-			headings[0].innerHTML = user.nickname + ' is currently playing';
+			headings[0].innerHTML = user.nickname + ' spelar just nu';
 		}
 	} else {
 		/* No one left in the queue to play */
 		CURRENT_PLAYER_ID = "";
 		CURRENT_TIME_LEFT = null;
 		avatarEl.innerHTML = ':)';
-		headings[0].innerHTML = 'No one is currently playing';
+		headings[0].innerHTML = 'Ingen spelar just nu';
 		headings[1].innerHTML = '---';
 		clearInterval(CURRENT_TIMER);
 	}
