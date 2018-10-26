@@ -248,9 +248,9 @@ function updateControls(inQueue) {
 		quitButton.style.height = 'auto';
 
 		if (inQueue) {
-			quitButton.innerHTML = "Leave queue to play";
+			quitButton.innerHTML = "Lämna kön att spela";
 		} else {
-			quitButton.innerHTML = 'Quit playing';
+			quitButton.innerHTML = 'Sluta spela';
 		}
 	}
 
@@ -298,10 +298,10 @@ function updateQueueContent(queuedPlayers) {
 	var waitingEl = document.getElementsByClassName('waiting-players')[0];
 	var followText = "";
 	if (CURRENT_PLAYER_ID === CURRENT_USER.id) {
-		followText = queuedPlayers.length-1 === 1 ? ' player after you' : ' players after you';
+		followText = queuedPlayers.length-1 === 1 ? ' spelare efter dig' : ' spelare efter dig';
 		waitingEl.innerHTML = queuedPlayers.length-1 + followText;
 	} else {
-		followText = playersAhead === 1 ? ' player before you' : ' players before you';
+		followText = playersAhead === 1 ? ' spelare före dig' : ' spelare före dig';
 		waitingEl.innerHTML = playersAhead + followText;
 	}
 
@@ -327,9 +327,9 @@ function updateEstimatedWait(numQueuedPlayers) {
 	var waitTimeEl = document.getElementById('waittime');
 	if ( waitTime == 0) {
 		// No one is currently playing
-		waitTimeEl.innerHTML = "Estimated wait: none";
+		waitTimeEl.innerHTML = "Estimerad vänttid: ingen";
 	} else {
-		waitTimeEl.innerHTML = "Estimated wait: " + waitTime + " min";
+		waitTimeEl.innerHTML = "Estimerad vänttid: " + waitTime + " min";
 	}
 }
 
