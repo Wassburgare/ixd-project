@@ -1,3 +1,5 @@
+//Orange
+
 #define THINGER_SERVER "192.168.1.234"
 //This define has to be at the top of the document and contains the location of the thinger server
 
@@ -36,7 +38,7 @@ int previous = LOW;    // the previous reading from the input pin
 // the following variables are long because the time, measured in miliseconds,
 // will quickly become a bigger number than can be stored in an int.
 long thetime = 0;         // the last time the output pin was toggled
-long debounce = 35;   // the debounce time, increase if the output flickers. Original 150
+long debounce = 55;   // the debounce time, increase if the output flickers. Original 150
 int brushState = -1;     // Keeps track on the state of the brush
 
 void setup()
