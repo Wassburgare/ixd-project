@@ -82,6 +82,7 @@ main > section:first-child > h2 {
 
 button {
 	cursor: pointer;
+	font-weight: bold;
 }
 
 div.stream {
@@ -150,6 +151,7 @@ button.key {
 	display: inline-block;
 	font-family: 'Quantico', sans-serif;
 	font-size: 1.4em;
+	font-weight: bold;
 	color: rgb(255, 255, 255);
 	width: 100%;
 	min-width: 40px;
